@@ -50,7 +50,7 @@ nx run translations-api:serve:development
 
 To run the client you can run 
 ```bash
-nx run translations-api:serve:development
+nx run translations-client:serve:development
 ```
 
 To run both at the same time in Development mode:
