@@ -57,3 +57,20 @@ To run both at the same time in Development mode:
 ```bash
 nx run-many --targets=serve --projects=translations-api,translations-client -c development
 ```
+
+
+## Running the API
+
+- Make sure Docker is running
+- Run `sudo docker-compose up -d` to start the database
+- Run `nx run translations-api:serve:development` to start the API
+- ⭐ ProTip: You can  install PgAdmin to see the Database
+- 
+
+
+# Seeds
+
+To run a seed for your local environment run
+```bash
+ts-node apps/translations-api/src/seed.ts
+```

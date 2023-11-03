@@ -1,20 +1,20 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { LanguagesController } from './languages.controller';
 import { LanguagesService } from './languages.service';
 
-describe('ApiFeatureTranslationsController', () => {
+describe('LanguagesController', () => {
   let controller: LanguagesController;
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      providers: [LanguagesService],
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [LanguagesController],
+      providers: [LanguagesService],
     }).compile();
 
-    controller = module.get(LanguagesController);
+    controller = module.get<LanguagesController>(LanguagesController);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeTruthy();
+    expect(controller).toBeDefined();
   });
 });

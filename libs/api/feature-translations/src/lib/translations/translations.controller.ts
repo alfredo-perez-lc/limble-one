@@ -1,4 +1,68 @@
-import { Controller } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { TranslationsService } from './translations.service';
+import { CreateTranslationDto } from './dto/create-translation.dto';
+import { UpdateTranslationDto } from './dto/update-translation.dto';
 
 @Controller('translations')
-export class TranslationsController {}
+export class TranslationsController {
+  constructor(private readonly translationsService: TranslationsService) {}
+
+  @Post()
+  create(@Body() createTranslationDto: CreateTranslationDto) {
+    return this.translationsService.create(createTranslationDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.translationsService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.translationsService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateTranslationDto: UpdateTranslationDto
+  ) {
+    return this.translationsService.update(+id, updateTranslationDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.translationsService.remove(+id);
+  }
+
+  // @Get('download-json/:languageCode')
+  // downloadTranslationsJson(@Param('languageCode') languageCode: string) {
+  //   // const fileStream =
+  //   //   this.translationsService.downloadTranslationsJson(languageCode);
+  //   // res.headers =('Content-Type', 'application/json');
+  //   // res.setHeader(
+  //   //   'Content-Disposition',
+  //   //   `attachment; filename=${languageCode}.json`
+  //   // );
+  //   // fileStream.pipe(res);
+  // }
+
+  // @Get('download-zip')
+  // downloadTranslationsZip() {
+  //   // const fileStream = this.translationsService.downloadTranslationsZip();
+  //   // res.setHeader('Content-Type', 'application/zip');
+  //   // res.setHeader(
+  //   //   'Content-Disposition',
+  //   //   'attachment; filename=translations.zip'
+  //   // );
+  //   // fileStream.pipe(res);
+  // }
+}

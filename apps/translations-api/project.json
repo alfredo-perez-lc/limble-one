@@ -14,6 +14,19 @@
         "outputPath": "dist/apps/translations-api",
         "main": "apps/translations-api/src/main.ts",
         "tsConfig": "apps/translations-api/tsconfig.app.json",
+        "tsPlugins": [
+          {
+            "name": "@nestjs/swagger/plugin",
+            "options": {
+              "dtoFileNameSuffix": [".entity.ts", ".dto.ts"],
+              "controllerFileNameSuffix": [".controller.ts"],
+              "classValidatorShim": true,
+              "dtoKeyOfComment": "description",
+              "controllerKeyOfComment": "description",
+              "introspectComments": true
+            }
+          }
+        ],
         "assets": ["apps/translations-api/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "apps/translations-api/webpack.config.js"
