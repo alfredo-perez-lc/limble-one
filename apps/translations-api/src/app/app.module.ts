@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 
 import { ApiFeatureTranslationsModule } from '@limble/api/feature-translations';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SharedIniFileCredentials, Translate } from 'aws-sdk';
+import { AwsSdkModule } from 'nest-aws-sdk';
 
 @Module({
   imports: [
@@ -16,6 +18,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         autoLoadEntities: true,
         synchronize: true,
       }),
+    }),
+    AwsSdkModule.forRoot({
+      defaultServiceOptions: {
+        region: 'us-east-1',
+        credentials: new SharedIniFileCredentials({
+          profile: 'default',
+        }),
+      },
+      services: [Translate],
     }),
     ApiFeatureTranslationsModule,
   ],

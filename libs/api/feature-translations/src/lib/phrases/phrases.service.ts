@@ -11,8 +11,9 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { Language } from '../languages/entities/language.entity';
 import { PaginationQueryDto } from '../pagination-query.dto';
+import { Translation } from '../translations/entities/translation.entity';
+import { AwsTranslateService } from '../util';
 
 @Injectable()
 export class PhrasesService {
@@ -21,15 +22,16 @@ export class PhrasesService {
     private phraseRepository: Repository<Phrase>,
     @InjectRepository(Scope)
     private scopeRepository: Repository<Scope>,
-    @InjectRepository(Language)
-    private languageRepository: Repository<Language>
+    @InjectRepository(Translation)
+    private translationRepository: Repository<Translation>,
+    private aswTranslateService: AwsTranslateService
   ) {}
 
   @ApiCreatedResponse({ description: 'Phrase created successfully' })
   @ApiNotFoundResponse({ description: 'Scope or language not found' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(createPhraseDto: CreatePhraseDto) {
-    const { scopeId, ...rest } = createPhraseDto;
+    const { scopeId, text } = createPhraseDto;
     const scope = await this.scopeRepository.findOne({
       where: { id: scopeId },
     });
@@ -38,13 +40,15 @@ export class PhrasesService {
       throw new NotFoundException('Scope not found');
     }
 
-    const phrase = this.phraseRepository.create({ ...rest, scope });
-    return this.phraseRepository.save(phrase);
+    const translation = await this.aswTranslateService.translate(text, 'es');
+    console.log({ translation });
+
+    // const phrase = this.phraseRepository.create({ text, scope });
+    // return this.phraseRepository.save(phrase);
   }
 
   @ApiOkResponse({ description: 'Returns a list of phrases' })
   @ApiNotFoundResponse({ description: 'No phrases found' })
-  // TODO: Add pagination
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit: take, offset: skip } = paginationQuery;
     return this.phraseRepository.find({

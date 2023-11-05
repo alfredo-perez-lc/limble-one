@@ -10,5 +10,6 @@ import { Language } from '../languages/entities/language.entity';
   imports: [TypeOrmModule.forFeature([Translation, Phrase, Language])],
   controllers: [TranslationsController],
   providers: [TranslationsService],
+  exports: [TranslationsService],
 })
 export class TranslationsModule {}
