@@ -1,26 +1,133 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
-<div class="layout-topbar" >
+  <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="../assets/images/limble-log-white.png" alt="logo">
-        <span>TRANSLATIONS</span>
+      <img src="../assets/images/limble-log-white.png" alt="logo" />
+      <span>TRANSLATIONS</span>
     </a>
 
-    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-        </button>
+    <div
+      #topbarmenu
+      class="layout-topbar-menu"
+      [ngClass]="{ 'layout-topbar-menu-mobile-active': profileSidebarVisible }"
+    >
+      <button class="p-link layout-topbar-button">
+        <i class="pi pi-user"></i>
+        <span>Profile</span>
+      </button>
     </div>
-</div>
+  </div>
 
-<div class="layout-main-container">
+  <div class="layout-main-container">
     <div class="layout-main">
+      <div
+        class="flex w-full justify-content-between fadein animation-duration-1000"
+      >
+        <h1>Translations 2</h1>
+        <div class="flex flex-row gap-4 align-self-center">
+          <button
+            pButton
+            pRipple
+            label="Add Language"
+            class="p-button-secondary"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Add Phrase"
+            class="p-button-primary"
+          ></button>
+        </div>
+      </div>
+
+      <div class="flex flex-row py-4 gap-4 justify-content-end">
+        <span class="flex flex-row gap-2 align-items-center">
+          <label>Select a City</label>
+          <p-dropdown
+            [options]="scopes"
+            [(ngModel)]="selectedScope"
+            optionLabel="name"
+          ></p-dropdown>
+        </span>
+        <span class="flex flex-row gap-2 align-items-center">
+          <label>Select a City</label>
+          <p-dropdown
+            [options]="scopes"
+            [(ngModel)]="selectedScope"
+            optionLabel="name"
+          ></p-dropdown>
+        </span>
+      </div>
+
+      <div class="card flex justify-content-center">
+        <p-listbox
+          [options]="phrases"
+          [(ngModel)]="selectedPhrase"
+          optionLabel="text"
+          [style]="{ width: '15rem' }"
+          [listStyle]="{ 'max-height': '220px' }"
+        ></p-listbox>
+      </div>
+
+      <pre> {{ phrases | json }} </pre>
+
+      <p-dataView
+        #dv
+        [value]="phrases"
+        [sortField]="sortField"
+        [sortOrder]="sortOrder"
+        [paginator]="true"
+      >
+        <ng-template let-phrase pTemplate="listItem">
+          <span> {{ phrase.text }} </span>
+          <!-- <div class="col-12"> -->
+          <!-- <div
+              class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+            >
+              <img
+                class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                [src]="
+                  'https://primefaces.org/cdn/primeng/images/demo/product/' +
+                  product.image
+                "
+              />
+              <div
+                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
+              >
+                <div
+                  class="flex flex-column align-items-center sm:align-items-start gap-3"
+                >
+                  <div class="text-2xl font-bold text-900">
+                    {{ 'Brooke' }}
+                  </div>
+                  <div class="flex align-items-center gap-3">
+                    <span class="flex align-items-center gap-2">
+                      <i class="pi pi-tag"></i>
+                      <span class="font-semibold">{{ 'Limble' }}</span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
+                >
+                  <span class="text-2xl font-semibold">{{
+                    '$' + product.price
+                  }}</span>
+                  <button
+                    pButton
+                    icon="pi pi-shopping-cart"
+                    class="md:align-self-end mb-2 p-button-rounded"
+                  ></button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </ng-template>
+      </p-dataView>
       <router-outlet></router-outlet>
     </div>
   </div>
 
-  <div class="layout-mask"></div>
+  <!-- <div class="layout-mask"></div> -->
 </div>
-
 
 <router-outlet></router-outlet>
