@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePhraseDto } from './dto/create-phrase.dto';
 import { UpdatePhraseDto } from './dto/update-phrase.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -42,6 +46,25 @@ export class PhrasesService {
     });
     if (!scope) {
       throw new NotFoundException('Scope not found');
+    }
+
+    // TODO: Create a reusable exception for phrase uniqueness
+    let existingPhrase = await this.isPhraseKeyUniqueInScope(key, scopeId);
+    if (existingPhrase) {
+      return new BadRequestException(
+        `The phrase key must be unique in the scope, please use another key.
+        Existing phrase: ${existingPhrase.text}, key: ${existingPhrase.key}.
+        This is in the scope with name "${existingPhrase.scope.name}" - and with the id "${existingPhrase.scope.id}"`
+      );
+    }
+
+    existingPhrase = await this.isPhraseTextUnique(text);
+    if (existingPhrase) {
+      return new BadRequestException(
+        `The phrase text must be unique, please use another text!
+        Existing phrase: ${existingPhrase.text}, key: ${existingPhrase.key}.
+        This is in the scope with name "${existingPhrase.scope.name}" - and with the id "${existingPhrase.scope.id}"`
+      );
     }
 
     // Create the phrase
@@ -171,5 +194,22 @@ export class PhrasesService {
       return [];
     }
     return this.phraseRepository.findBy({ id: In(duplicatePhraseIds) });
+  }
+
+  private isPhraseKeyUniqueInScope(
+    key: string,
+    scopeId: number
+  ): Promise<Phrase | null> {
+    return this.phraseRepository.findOne({
+      where: { key, scope: { id: scopeId } },
+      relations: ['scope'],
+    });
+  }
+
+  private isPhraseTextUnique(text: string): Promise<Phrase | null> {
+    return this.phraseRepository.findOne({
+      where: { text },
+      relations: ['scope'],
+    });
   }
 }
