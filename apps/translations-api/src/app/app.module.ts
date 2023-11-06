@@ -31,11 +31,4 @@ import { AwsSdkModule } from 'nest-aws-sdk';
     ApiFeatureTranslationsModule,
   ],
 })
-export class AppModule {
-  // constructor(private readonly languagesService: LanguagesService) {}
-  //
-  // async onApplicationBootstrap(): Promise<void> {
-  //   // await this.seedsService.seed();
-  //   await this.languagesService.seed(languagesMocks.data.seed);
-  // }
-}
+export class AppModule {}

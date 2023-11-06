@@ -28,8 +28,7 @@ export class PhrasesController {
   @ApiCreatedResponse({ description: 'Phrase created successfully' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createPhraseDto: CreatePhraseDto) {
-    const phrase = await this.phrasesService.create(createPhraseDto);
-    // const { id, scope, text } = phrase;
+    return await this.phrasesService.create(createPhraseDto);
   }
 
   @Get()

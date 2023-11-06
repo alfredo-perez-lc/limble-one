@@ -1,0 +1,29 @@
+{
+  "name": "feature-landing-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/feature-landing-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/feature-landing-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "feature-landing:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "feature-landing:static-storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/feature-landing-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "implicitDependencies": ["feature-landing-e2e"]
+}

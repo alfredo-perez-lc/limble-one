@@ -14,6 +14,7 @@ import {
 import { PaginationQueryDto } from '../pagination-query.dto';
 import { Translation } from '../translations/entities/translation.entity';
 import { AwsTranslateService } from '../util';
+import { Language } from '../languages';
 
 @Injectable()
 export class PhrasesService {
@@ -24,6 +25,8 @@ export class PhrasesService {
     private scopeRepository: Repository<Scope>,
     @InjectRepository(Translation)
     private translationRepository: Repository<Translation>,
+    @InjectRepository(Language)
+    private languageRepository: Repository<Language>,
     private aswTranslateService: AwsTranslateService
   ) {}
 
@@ -31,20 +34,36 @@ export class PhrasesService {
   @ApiNotFoundResponse({ description: 'Scope or language not found' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(createPhraseDto: CreatePhraseDto) {
-    const { scopeId, text } = createPhraseDto;
+    const { scopeId, text, key } = createPhraseDto;
+
+    // TODO: Investigate if I can create a validator for this
     const scope = await this.scopeRepository.findOne({
       where: { id: scopeId },
     });
-
     if (!scope) {
       throw new NotFoundException('Scope not found');
     }
 
-    const translation = await this.aswTranslateService.translate(text, 'es');
-    console.log({ translation });
+    // Create the phrase
+    const phrase = this.phraseRepository.create({ text, scope, key });
+    await this.phraseRepository.save(phrase);
 
-    // const phrase = this.phraseRepository.create({ text, scope });
-    // return this.phraseRepository.save(phrase);
+    // Translate the phrase to all languages and save them
+    const allLanguages = await this.languageRepository.find();
+    for (const language of allLanguages) {
+      const text = 'this is a mocked translations';
+      const translation = this.translationRepository.create({
+        text,
+        language,
+        phrase,
+      });
+      await this.translationRepository.save(translation);
+    }
+
+    return this.findOne(phrase.id);
+
+    // const translation = await this.aswTranslateService.translate(text, 'es');
+    // console.log({ translation });
   }
 
   @ApiOkResponse({ description: 'Returns a list of phrases' })
@@ -66,7 +85,7 @@ export class PhrasesService {
   async findOne(id: number) {
     const phrase = await this.phraseRepository.findOne({
       where: { id },
-      relations: ['scope', 'language'],
+      relations: ['scope', 'translations'],
     });
 
     if (!phrase) {

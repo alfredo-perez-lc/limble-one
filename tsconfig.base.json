@@ -18,7 +18,8 @@
       "@limble/api/feature-translations": [
         "libs/api/feature-translations/src/index.ts"
       ],
-      "@limble/shared/domain": ["libs/shared/domain/src/index.ts"]
+      "@limble/shared/domain": ["libs/shared/domain/src/index.ts"],
+      "@limble/ui/landing": ["libs/ui/feature-landing/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

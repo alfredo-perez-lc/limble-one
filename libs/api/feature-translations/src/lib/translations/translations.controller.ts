@@ -43,18 +43,6 @@ export class TranslationsController {
     return this.translationsService.remove(+id);
   }
 
-  // @Get('download-json/:languageCode')
-  // downloadTranslationsJson(@Param('languageCode') languageCode: string) {
-  //   // const fileStream =
-  //   //   this.translationsService.downloadTranslationsJson(languageCode);
-  //   // res.headers =('Content-Type', 'application/json');
-  //   // res.setHeader(
-  //   //   'Content-Disposition',
-  //   //   `attachment; filename=${languageCode}.json`
-  //   // );
-  //   // fileStream.pipe(res);
-  // }
-
   // @Get('download-zip')
   // downloadTranslationsZip() {
   //   // const fileStream = this.translationsService.downloadTranslationsZip();

@@ -19,7 +19,7 @@ export class TranslationsService {
   ) {}
 
   async create(createTranslationDto: CreateTranslationDto) {
-    const { phraseId, languageId, ...rest } = createTranslationDto;
+    const { phraseId, languageId, text } = createTranslationDto;
 
     const phrase = await this.phraseRepository.findOne({
       where: { id: phraseId },
@@ -36,7 +36,7 @@ export class TranslationsService {
     }
 
     const translation = this.translationRepository.create({
-      ...rest,
+      text,
       phrase,
       language,
     });
@@ -44,13 +44,22 @@ export class TranslationsService {
   }
 
   findAll() {
-    return this.translationRepository.find();
+    return this.translationRepository.find({
+      relations: ['phrase', 'language'],
+    });
   }
 
-  findOne(id: number) {
-    return this.translationRepository.findOne({
+  async findOne(id: number) {
+    const translation = await this.translationRepository.findOne({
       where: { id },
+      relations: ['phrase', 'language'],
     });
+
+    if (!translation) {
+      throw new NotFoundException(`Translation #${id} not found`);
+    }
+
+    return translation;
   }
 
   async update(id: number, updateTranslationDto: UpdateTranslationDto) {
@@ -89,33 +98,6 @@ export class TranslationsService {
     return this.translationRepository.remove(translation);
   }
 
-  // @ApiOkResponse({
-  //   description: 'Download JSON file with translations for a specific language',
-  // })
-  // @ApiNotFoundResponse({ description: 'Language not found' })
-  // async downloadTranslationsJson(languageCode: string): Promise<Readable> {
-  //   const language = await this.languageRepository.findOne({
-  //     where: { code: languageCode },
-  //   });
-  //   if (!language) {
-  //     throw new NotFoundException('Language not found');
-  //   }
-  //
-  //   const translations = await this.translationRepository.find({
-  //     where: { language },
-  //   });
-  //
-  //   const translationsJson = translations.reduce((json, translation) => {
-  //     json[translation.phrase.phraseKey] = translation.translationText;
-  //     return json;
-  //   }, {});
-  //
-  //   const tmpFile = tmp.fileSync({ postfix: '.json' });
-  //   fs.writeFileSync(tmpFile.name, JSON.stringify(translationsJson, null, 2));
-  //
-  //   return createReadStream(tmpFile.name);
-  // }
-  //
   // @ApiOkResponse({
   //   description: 'Download ZIP file with JSON files for all languages',
   // })

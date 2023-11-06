@@ -4,12 +4,17 @@ import { UpdateLanguageDto } from './dto/update-language.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Language } from './entities/language.entity';
+import { Translation } from '../translations/entities/translation.entity';
+import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import * as fs from 'fs';
 
 @Injectable()
 export class LanguagesService {
   constructor(
     @InjectRepository(Language)
-    private languageRepository: Repository<Language>
+    private languageRepository: Repository<Language>,
+    @InjectRepository(Translation)
+    private translationRepository: Repository<Translation>
   ) {}
 
   async create(createLanguageDto: CreateLanguageDto) {
@@ -19,6 +24,38 @@ export class LanguagesService {
 
   async findAll() {
     return this.languageRepository.find();
+  }
+
+  async findAllTranslations(languageId: number) {
+    const translations = await this.translationRepository.find({
+      where: { language: { id: languageId } },
+      relations: ['phrase', 'language'],
+    });
+    return translations.reduce((prev, current) => {
+      return { ...prev, [current.phrase.key]: current.text };
+    }, {});
+  }
+
+  @ApiOkResponse({
+    description: 'Download JSON file with translations for a specific language',
+  })
+  @ApiNotFoundResponse({ description: 'Language not found' })
+  async generateResultsJsonFile(languageId: number): Promise<string> {
+    try {
+      const translationsJson = await this.findAllTranslations(languageId);
+
+      const filePath = `${languageId}.json`;
+      fs.writeFileSync(filePath, JSON.stringify(translationsJson, null, 2), {
+        encoding: 'utf8',
+        flag: 'w',
+      });
+      return filePath;
+    } catch (e) {
+      console.log({ e });
+      throw new NotFoundException(
+        `Error generating the JSON file for  Language #${languageId}`
+      );
+    }
   }
 
   async findOne(id: number) {

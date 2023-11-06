@@ -5,7 +5,7 @@ export class CreateTranslationDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  translationText!: string;
+  text!: string;
 
   @ApiProperty()
   @IsNotEmpty()
