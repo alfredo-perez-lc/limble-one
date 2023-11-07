@@ -33,11 +33,18 @@
         "port": 4400,
         "configDir": "libs/ui/feature-landing/.storybook",
         "browserTarget": "feature-landing:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "apps/translations-client/src/styles.scss",
+          "apps/translations-client/src/variables.scss",
+          "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+          "node_modules/primeng/resources/primeng.min.css"
+        ]
       },
       "configurations": {
         "ci": {
-          "quiet": true
+          "quiet": true,
+          "noOpen": true
         }
       }
     },
@@ -48,7 +55,13 @@
         "outputDir": "dist/storybook/feature-landing",
         "configDir": "libs/ui/feature-landing/.storybook",
         "browserTarget": "feature-landing:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "apps/translations-client/src/styles.scss",
+          "apps/translations-client/src/variables.scss",
+          "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+          "node_modules/primeng/resources/primeng.min.css"
+        ]
       },
       "configurations": {
         "ci": {
