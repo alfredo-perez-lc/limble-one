@@ -21,9 +21,9 @@ import { AwsSdkModule } from 'nest-aws-sdk';
     }),
     AwsSdkModule.forRoot({
       defaultServiceOptions: {
-        region: 'us-east-1',
+        region: 'us-west-1',
         credentials: new SharedIniFileCredentials({
-          profile: 'default',
+          profile: 'personal-user',
         }),
       },
       services: [Translate],
