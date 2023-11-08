@@ -4,10 +4,11 @@ import { AddPhraseDialogComponent } from './add-phrase-dialog.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { LandingPageMocks } from '../../landing-page.mocks';
 
 const meta: Meta<AddPhraseDialogComponent> = {
   component: AddPhraseDialogComponent,
-  title: 'Translations/Landing Page/Add Phrase Dialog',
+  title: 'Translations/Landing Page/Components/Add Phrase Dialog',
   parameters: {},
   decorators: [
     applicationConfig({
@@ -22,7 +23,10 @@ export default meta;
 type Story = StoryObj<AddPhraseDialogComponent>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    state: 'INITIAL',
+    languages: LandingPageMocks.data.languages,
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -30,13 +34,25 @@ export const Default: Story = {
   },
 };
 
-export const WhileSaving: Story = {
+export const Saving: Story = {
   args: {
-    isSaving: true,
+    state: 'SAVING',
+    phrase: {
+      key: 'hello-world',
+      text: 'Hello World',
+    },
+    languages: LandingPageMocks.data.languages,
   },
-  // play: async ({ canvasElement }) => {
-  //   const canvas = within(canvasElement);
-  //
-  //   // await canvas.getByText('key').('THIS_IS_A_KEY');
-  // },
+};
+
+export const Saved: Story = {
+  args: {
+    state: 'SAVED',
+  },
+};
+
+export const Error: Story = {
+  args: {
+    state: 'ERROR',
+  },
 };

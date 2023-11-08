@@ -69,7 +69,7 @@ export class PhrasesService {
 
     // Create the phrase
     const phrase = this.phraseRepository.create({ text, scope, key });
-    // await this.phraseRepository.save(phrase);
+    await this.phraseRepository.save(phrase);
 
     // Translate the phrase to all languages and save them
     const allLanguages = await this.languageRepository.find();
@@ -78,15 +78,13 @@ export class PhrasesService {
         phrase.text,
         language.code
       );
-      console.log({ awsTranslation });
       const translatedText = awsTranslation.TranslatedText;
       const translation = this.translationRepository.create({
         text: translatedText,
         language,
         phrase,
       });
-      console.log({ translation });
-      //  await this.translationRepository.save(translation);
+      await this.translationRepository.save(translation);
     }
 
     return this.findOne(phrase.id);

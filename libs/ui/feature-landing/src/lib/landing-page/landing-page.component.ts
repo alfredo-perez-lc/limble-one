@@ -9,6 +9,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ListboxModule } from 'primeng/listbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { PageTitleComponent } from '@limble/ui/shared';
+import { PhrasesListComponent } from './components/phrases-list/phrases-list.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -23,6 +24,7 @@ import { PageTitleComponent } from '@limble/ui/shared';
     ListboxModule,
     PaginatorModule,
     PageTitleComponent,
+    PhrasesListComponent,
   ],
   providers: [HttpClient],
   templateUrl: './landing-page.component.html',

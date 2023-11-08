@@ -1,11 +1,11 @@
 <p-dialog
   header="Create a new phrase"
   [(visible)]="visible"
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '50vw', height: '600px' }"
   [draggable]="false"
   [resizable]="false"
 >
-  <ng-container *ngIf="!isSaving">
+  <ng-container *ngIf="state === 'INITIAL'">
     <p>
       <strong>Let's make this easy!</strong> Just enter the phrase key and text
       you want to use and we'll do the rest.
@@ -41,7 +41,34 @@
         <small id="text-help">Enter the text that we need to localize.</small>
       </div>
     </div>
-    <ng-template pTemplate="footer">
+  </ng-container>
+  <ng-container *ngIf="state === 'SAVING'">
+    <div class="flex-col mt-1 mb-1 gap-0">
+      <p class="m-0"><strong>Phrase Text:</strong> {{ phrase.text }}</p>
+      <p class="m-0">
+        <small><strong>Key:</strong> {{ phrase.key }}</small>
+      </p>
+    </div>
+    <p-divider></p-divider>
+    <ng-container *ngFor="let lang of languages">
+      <div class="flex-col mt-2">
+        <p>{{ lang.name }}</p>
+        <p-skeleton height="2rem"></p-skeleton>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="state === 'SAVED'">
+    <l-translated-phrase-form></l-translated-phrase-form>
+  </ng-container>
+
+  <ng-container *ngIf="state === 'ERROR'">
+    <h2>Oh No!!</h2>
+    <p>Something wrong happened</p>
+    <p>Here is the error message we got: {{ error }}</p>
+  </ng-container>
+  <ng-template pTemplate="footer">
+    <div class="mt-8">
       <button
         pButton
         type="button"
@@ -56,11 +83,6 @@
         class=""
         (click)="save()"
       ></button>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="isSaving">
-    <h2>{{formGroup.controls['key'].value}}</h2>
-    <p>{{formGroup.controls['text'].value}}</p>
-
-  </ng-container>
+    </div>
+  </ng-template>
 </p-dialog>
