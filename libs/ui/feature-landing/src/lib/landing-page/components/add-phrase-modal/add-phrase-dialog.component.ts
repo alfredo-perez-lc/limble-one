@@ -25,6 +25,7 @@ export class AddPhraseDialogComponent implements OnInit {
 
   @Input()
   visible: boolean = false;
+
   @Input()
   isSaving = false;
 

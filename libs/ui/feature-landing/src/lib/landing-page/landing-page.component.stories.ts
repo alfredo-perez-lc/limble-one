@@ -1,24 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { applicationConfig } from '@storybook/angular';
 import { LandingPageComponent } from './landing-page.component';
-
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
 
 const meta: Meta<LandingPageComponent> = {
   component: LandingPageComponent,
-  title: 'LandingPageComponent',
+  title: 'Translations/Landing Page',
+  decorators: [
+    applicationConfig({
+      providers: [provideAnimations(), provideHttpClient()],
+    }),
+  ],
 };
 export default meta;
 type Story = StoryObj<LandingPageComponent>;
 
-export const Primary: Story = {
+export const Default: Story = {
   args: {},
-};
-
-export const Heading: Story = {
-  args: {},
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    expect(canvas.getByText(/landing-page works!/gi)).toBeTruthy();
-  },
 };
