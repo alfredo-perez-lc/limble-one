@@ -1,1 +1,17 @@
-<p>top-nav works!</p>
+<div class="layout-topbar">
+  <a class="layout-topbar-logo" routerLink="">
+    <img src="../assets/images/limble-log-white.png" alt="logo" />
+    <span>TRANSLATIONS</span>
+  </a>
+
+  <div
+    #topbarmenu
+    class="layout-topbar-menu"
+    [ngClass]="{ 'layout-topbar-menu-mobile-active': profileSidebarVisible }"
+  >
+    <button class="p-link layout-topbar-button">
+      <i class="pi pi-user"></i>
+      <span>Profile</span>
+    </button>
+  </div>
+</div>

@@ -31,7 +31,7 @@ import { PaginatorModule } from 'primeng/paginator';
 })
 export class AppComponent implements OnInit {
   title = 'translations-client';
-  profileSidebarVisible: any;
+
   containerClass: any;
   selectedScope: any;
   scopes = AppMocks.data.scopes;

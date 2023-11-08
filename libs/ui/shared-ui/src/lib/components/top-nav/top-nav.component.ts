@@ -9,4 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./top-nav.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopNavComponent {}
+export class TopNavComponent {
+  profileSidebarVisible: any;
+}
