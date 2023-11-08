@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class LandingPageComponent {
   languages$ = this.languagesService.getAll();
+  value: any;
 
   constructor(private languagesService: LanguagesService) {}
 }
