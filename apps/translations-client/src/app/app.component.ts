@@ -9,6 +9,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   standalone: true,
@@ -22,6 +23,7 @@ import { ListboxModule } from 'primeng/listbox';
     InputTextModule,
     CommonModule,
     ListboxModule,
+    PaginatorModule,
   ],
   selector: 't-root',
   templateUrl: './app.component.html',
@@ -39,9 +41,12 @@ export class AppComponent implements OnInit {
   sortField: string | undefined;
   sortOrder: number | undefined;
   sortOptions: any[] | undefined;
+  first: number | undefined;
+  rows: number | undefined;
   sortKey: any;
   value: any;
   selectedPhrase: any;
+  filteredPhrases: any[] = [];
 
   ngOnInit() {
     this.isWelcomeComponent('t-root');
@@ -52,6 +57,8 @@ export class AppComponent implements OnInit {
       { label: 'A-Z', value: '!alphabetical' },
       { label: 'Z-A', value: 'alphabetical' },
     ];
+
+    this.filteredPhrases = this.phrases; // Initialize filteredPhrases with all phrases
   }
 
   public isWelcomeComponent(name: string): boolean {
@@ -69,24 +76,4 @@ export class AppComponent implements OnInit {
       this.sortField = value;
     }
   }
-
-  // getSeverity(product: Product) {
-  //   switch (product.inventoryStatus) {
-  //     case 'INSTOCK':
-  //       return 'success';
-
-  //     case 'LOWSTOCK':
-  //       return 'warning';
-
-  //     case 'OUTOFSTOCK':
-  //       return 'danger';
-
-  //     default:
-  //       return null;
-  //   }
-  // }
-
-  // onMenuToggle() {}
-
-  // showProfileSidebar() {}
 }

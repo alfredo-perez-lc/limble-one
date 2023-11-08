@@ -12,26 +12,31 @@ const data = {
       key: 'Paused',
       text: 'Paused',
       id: 1,
+      language: 'en',
     },
     {
       key: 'Translate',
       text: 'Translate',
       id: 2,
+      language: 'en',
     },
     {
       key: 'Language',
       text: 'Language',
       id: 3,
+      language: 'en',
     },
     {
       key: 'Words',
       text: 'Words',
       id: 4,
+      language: 'en',
     },
     {
       key: 'Alphabet',
       text: 'Alphabet',
       id: 5,
+      language: 'en',
     },
   ],
 
