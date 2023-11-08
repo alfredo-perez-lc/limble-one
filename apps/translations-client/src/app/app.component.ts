@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
 
   containerClass: any;
   selectedScope: any;
+  profileSidebarVisible: any;
   scopes = AppMocks.data.scopes;
   phrases = AppMocks.data.phrases;
   translations = AppMocks.data.translations;
