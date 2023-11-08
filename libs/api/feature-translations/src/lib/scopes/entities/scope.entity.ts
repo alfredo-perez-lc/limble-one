@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Phrase } from '../../phrases/entities/phrase.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -21,6 +28,19 @@ export class Scope {
       'The scope description and where the related translations are  used',
   })
   description!: string;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  updatedAt!: Date;
 
   @OneToMany(() => Phrase, (phrase) => phrase.scope)
   phrases!: Phrase[];

@@ -33,7 +33,13 @@
         "port": 4400,
         "configDir": "libs/ui/shared-ui/.storybook",
         "browserTarget": "shared-ui:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "apps/translations-client/src/styles.scss",
+          "apps/translations-client/src/variables.scss",
+          "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+          "node_modules/primeng/resources/primeng.min.css"
+        ]
       },
       "configurations": {
         "ci": {
@@ -48,7 +54,13 @@
         "outputDir": "dist/storybook/shared-ui",
         "configDir": "libs/ui/shared-ui/.storybook",
         "browserTarget": "shared-ui:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "apps/translations-client/src/styles.scss",
+          "apps/translations-client/src/variables.scss",
+          "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+          "node_modules/primeng/resources/primeng.min.css"
+        ]
       },
       "configurations": {
         "ci": {
