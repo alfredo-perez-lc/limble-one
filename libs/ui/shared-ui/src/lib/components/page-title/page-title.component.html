@@ -1,24 +1,17 @@
-<div class="layout-wrapper" [ngClass]="containerClass">
-  <div class="layout-main-container">
-    <div class="layout-main">
-      <!--- Page Title -->
-      <div class="flex justify-content-between fadein animation-duration-1000">
-        <h1>Limble Translations</h1>
-        <div class="flex flex-row gap-4 align-self-center">
-          <button
-            pButton
-            pRipple
-            label="Add Language"
-            class="p-button-secondary"
-          ></button>
-          <button
-            pButton
-            pRipple
-            label="Add Phrase"
-            class="p-button-primary"
-          ></button>
-        </div>
-      </div>
-    </div>
+<div class="flex justify-content-between fadein animation-duration-1000">
+  <h1>{{title}}</h1>
+  <div class="flex flex-row gap-4 align-self-center">
+    <button
+      pButton
+      pRipple
+      label="Add Language"
+      class="p-button-secondary"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Add Phrase"
+      class="p-button-primary"
+    ></button>
   </div>
 </div>

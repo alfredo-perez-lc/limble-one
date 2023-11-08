@@ -10,6 +10,7 @@ import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { PaginatorModule } from 'primeng/paginator';
+import { TopNavComponent } from '@limble/ui/shared';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ import { PaginatorModule } from 'primeng/paginator';
     CommonModule,
     ListboxModule,
     PaginatorModule,
+    TopNavComponent,
   ],
   selector: 't-root',
   templateUrl: './app.component.html',
@@ -31,22 +33,16 @@ import { PaginatorModule } from 'primeng/paginator';
 })
 export class AppComponent implements OnInit {
   title = 'translations-client';
-
   containerClass: any;
-  selectedScope: any;
-  profileSidebarVisible: any;
   scopes = AppMocks.data.scopes;
   phrases = AppMocks.data.phrases;
   translations = AppMocks.data.translations;
-  products: any[] | undefined;
   sortField: string | undefined;
   sortOrder: number | undefined;
   sortOptions: any[] | undefined;
   first: number | undefined;
   rows: number | undefined;
-  sortKey: any;
   value: any;
-  selectedPhrase: any;
   filteredPhrases: any[] = [];
 
   ngOnInit() {

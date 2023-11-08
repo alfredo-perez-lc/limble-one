@@ -16,6 +16,10 @@ const meta: Meta<PageTitleComponent> = {
 export default meta;
 type Story = StoryObj<PageTitleComponent>;
 
-export const Default: Story = {
-  args: {},
+export const Default: Story = {};
+
+export const WithTitle: Story = {
+  args: {
+    title: 'Translations',
+  },
 };
