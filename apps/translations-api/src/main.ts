@@ -11,6 +11,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
+
+  // TODO: remove hack for swagger
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   setupSwaggerDocument(app);

@@ -2,4 +2,4 @@
  * Public API Surface of shared-ui
  */
 
-export * from './lib/add-scope-modal/';
+export * from './lib/services/api-service';
