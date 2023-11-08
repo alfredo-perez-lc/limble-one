@@ -69,24 +69,27 @@ export class PhrasesService {
 
     // Create the phrase
     const phrase = this.phraseRepository.create({ text, scope, key });
-    await this.phraseRepository.save(phrase);
+    // await this.phraseRepository.save(phrase);
 
     // Translate the phrase to all languages and save them
     const allLanguages = await this.languageRepository.find();
     for (const language of allLanguages) {
-      const text = 'this is a mocked translations';
+      const awsTranslation = await this.aswTranslateService.translate(
+        phrase.text,
+        language.code
+      );
+      console.log({ awsTranslation });
+      const translatedText = awsTranslation.TranslatedText;
       const translation = this.translationRepository.create({
-        text,
+        text: translatedText,
         language,
         phrase,
       });
-      await this.translationRepository.save(translation);
+      console.log({ translation });
+      //  await this.translationRepository.save(translation);
     }
 
     return this.findOne(phrase.id);
-
-    // const translation = await this.aswTranslateService.translate(text, 'es');
-    // console.log({ translation });
   }
 
   @ApiOkResponse({ description: 'Returns a list of phrases' })

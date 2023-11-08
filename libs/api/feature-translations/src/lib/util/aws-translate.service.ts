@@ -20,14 +20,17 @@ export class AwsTranslateService {
       SourceLanguageCode: 'EN',
       TargetLanguageCode: languageCode,
     };
-    this.awsTranslate.translateText(params, function (err, data) {
-      if (err) {
-        console.log(err, err.stack);
-        return;
-      }
-      if (data) {
-        console.log({ data });
-      }
-    });
+    return this.awsTranslate.translateText(params).promise();
+
+    // return this.awsTranslate.translateText(params, function (err, data) {
+    //   if (err) {
+    //     console.log(err, err.stack);
+    //     return;
+    //   }
+    //   if (data) {
+    //     console.log({ data });
+    //   }
+    //   return data as TranslateTextResponse;
+    // }).promise();
   }
 }
