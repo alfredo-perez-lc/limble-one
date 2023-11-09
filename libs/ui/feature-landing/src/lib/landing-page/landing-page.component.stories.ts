@@ -3,13 +3,14 @@ import { applicationConfig } from '@storybook/angular';
 import { LandingPageComponent } from './landing-page.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
+import { DialogService } from 'primeng/dynamicdialog';
 
 const meta: Meta<LandingPageComponent> = {
   component: LandingPageComponent,
   title: 'Translations/Landing Page',
   decorators: [
     applicationConfig({
-      providers: [provideAnimations(), provideHttpClient()],
+      providers: [provideAnimations(), provideHttpClient(), DialogService],
     }),
   ],
 };

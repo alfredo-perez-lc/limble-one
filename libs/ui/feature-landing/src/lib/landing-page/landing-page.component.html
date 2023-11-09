@@ -1,57 +1,25 @@
-<l-page-title title="Translations">
+<div class="flex flex-column h-full fadein animation-duration-1000">
+  <l-page-title title="Translations">
     <div class="flex flex-row gap-4 align-self-center">
-        <button
-                pButton
-                pRipple
-                label="Add Language"
-                class="p-button-secondary"
-        ></button>
-        <button
-                pButton
-                pRipple
-                label="Add Phrase"
-                class="p-button-primary"
-                (click)="isCreatingPhrase = true"
-        ></button>
-
+      <button
+        pButton
+        pRipple
+        label="Add Language"
+        class="p-button-secondary"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Add Phrase"
+        class="p-button-primary"
+        (click)="onAddPhraseClick()"
+      ></button>
     </div>
-</l-page-title>
-<l-add-phrase-modal [visible]="isCreatingPhrase"></l-add-phrase-modal>
+  </l-page-title>
 
-<!--<div class="flex flex-row py-4 gap-4 justify-content-start">-->
-<!--        <span class="flex flex-row gap-2 align-items-center">-->
-<!--          <p-dropdown-->
-<!--            [options]="scopes"-->
-<!--            [(ngModel)]="selectedScope"-->
-<!--            optionLabel="name"-->
-<!--          ></p-dropdown>-->
-<!--        </span>-->
-<!--  <span class="flex flex-row gap-2 align-items-center">-->
-<!--          <p-dropdown-->
-<!--            [options]="scopes"-->
-<!--            [(ngModel)]="selectedScope"-->
-<!--            optionLabel="name"-->
-<!--          ></p-dropdown>-->
-<!--        </span>-->
-<!--</div>-->
-<l-phrases-list></l-phrases-list>
-<!--<div class="flex gap-2">-->
-<!--  <div class="w-4 flex align-items-center">-->
-<!--    <p-listbox-->
-<!--      class="w-full"-->
-<!--      [options]="phrases"-->
-<!--      [(ngModel)]="selectedPhrase"-->
-<!--      optionLabel="text"-->
-<!--    >-->
-<!--    </p-listbox>-->
-<!--  </div>-->
-
-<!--  <div class="w-8 font-bold p-1 flex align-items-center">-->
-<!--    {{ selectedPhrase | json }}-->
-<!--  </div>-->
-<!--</div>-->
-<!--<p-paginator-->
-<!--  class="paginator flex w-4"-->
-<!--  [totalRecords]="120"-->
-<!--  [rowsPerPageOptions]="[10, 25, 50]"-->
-<!--&gt;</p-paginator>-->
+  <l-phrases-list
+    class="mt-4"
+    [phrases]="phrases$ | async"
+    [languages]="languages$ | async"
+  ></l-phrases-list>
+</div>

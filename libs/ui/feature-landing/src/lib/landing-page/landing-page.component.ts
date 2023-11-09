@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LanguagesService } from '../shared/services/language.service';
+import { LanguagesService, PhraseService } from '../shared';
 import { HttpClient } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +12,9 @@ import { PageTitleComponent } from '@limble/ui/shared';
 import { PhrasesListComponent } from './components/phrases-list/phrases-list.component';
 import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
-import { AddPhraseDialogComponent } from './components/add-phrase-modal/add-phrase-dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { lastValueFrom } from 'rxjs';
+import { AddPhraseDialogComponent } from './components/add-phrase-dialog/add-phrase-dialog.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -32,14 +34,41 @@ import { AddPhraseDialogComponent } from './components/add-phrase-modal/add-phra
     SplitButtonModule,
     AddPhraseDialogComponent,
   ],
-  providers: [HttpClient],
+  providers: [HttpClient, DialogService],
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss'],
 })
 export class LandingPageComponent {
   languages$ = this.languagesService.getAll();
-  value: any;
-  isCreatingPhrase: boolean = false;
 
-  constructor(private languagesService: LanguagesService) {}
+  phrases$ = this.phrasesService.getAll();
+
+  isCreatingPhrase: boolean = false;
+  ref: DynamicDialogRef | undefined;
+
+  constructor(
+    private languagesService: LanguagesService,
+    private phrasesService: PhraseService,
+    private dialogService: DialogService
+  ) {}
+
+  ngOnInit() {}
+
+  async onAddPhraseClick() {
+    const languages = await lastValueFrom(this.languagesService.getAll());
+    if (!languages || languages.length === 0) return;
+    this.ref = this.dialogService.open(AddPhraseDialogComponent, {
+      header: 'Create a new phrase',
+      draggable: false,
+      resizable: false,
+      width: '50vw',
+      style: {
+        maxHeight: '600px',
+        maxWidth: '500px',
+      },
+      data: {
+        languages,
+      },
+    });
+  }
 }

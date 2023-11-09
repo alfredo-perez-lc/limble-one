@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { applicationConfig } from '@storybook/angular';
+import {
+  applicationConfig,
+  componentWrapperDecorator,
+} from '@storybook/angular';
 import { AddPhraseDialogComponent } from './add-phrase-dialog.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { LandingPageMocks } from '../../landing-page.mocks';
 import { provideHttpClient } from '@angular/common/http';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 const meta: Meta<AddPhraseDialogComponent> = {
   component: AddPhraseDialogComponent,
@@ -13,12 +17,17 @@ const meta: Meta<AddPhraseDialogComponent> = {
   parameters: {},
   decorators: [
     applicationConfig({
-      providers: [provideAnimations(), provideHttpClient()],
+      providers: [
+        provideAnimations(),
+        provideHttpClient(),
+        DynamicDialogConfig,
+      ],
     }),
+    componentWrapperDecorator(
+      (story) =>
+        `<div class="p-4 rounded-md"  style="background:white;width: 500px; height:400px; overflow: scroll">${story}</div>`
+    ),
   ],
-  args: {
-    visible: true,
-  },
 };
 export default meta;
 type Story = StoryObj<AddPhraseDialogComponent>;
@@ -58,6 +67,6 @@ export const Error: Story = {
   args: {
     state: 'ERROR',
     error:
-      '404 - What a horrible error! \n try again later. Or not! it is up to you!',
+      '<strong>Http failure response for http://localhost:3000/phrases: 400 Bad Request</strong><br/><p>scopeId should not be empty</p><p>scopeId must be a number conforming to the specified constraints</p>',
   },
 };

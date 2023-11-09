@@ -1,1 +1,29 @@
-<p>phrases-list works!</p>
+<div class="flex w-full h-full bg-white shadow-1 border-round-md">
+  <div *ngIf="phrases" class="flex flex-column gap-2 h-full border-right-1">
+    <div class="flex align-items-center w-4">
+      <p-listbox
+        class="flex w-full h-full"
+        [options]="phrases"
+        [(ngModel)]="selectedPhrase"
+        optionLabel="text"
+      >
+        {{ selectedPhrase | json }}
+      </p-listbox>
+    </div>
+    <p-divider layout="vertical"></p-divider>
+
+    <div class="w-8 font-bold p-1 flex align-items-center bg-purple-600">
+      <l-translated-phrase-form
+        *ngIf="languages && selectedPhrase"
+        [languages]="languages"
+        [phrase]="selectedPhrase"
+      ></l-translated-phrase-form>
+    </div>
+    <p-paginator
+      class="paginator flex w-4"
+      [totalRecords]="120"
+      [rowsPerPageOptions]="[10, 25, 50]"
+    >
+    </p-paginator>
+  </div>
+</div>

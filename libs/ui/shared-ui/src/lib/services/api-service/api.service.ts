@@ -8,11 +8,11 @@ export abstract class ApiService<T> {
     private httpClient: HttpClient
   ) {}
 
-  public getAll(pageQuery?: PageQuery) {
+  public getAll(pageQuery?: PageQuery): Observable<T[]> {
     return this.request('GET', pageQuery);
   }
 
-  public get(id: number) {
+  public get(id: number): Observable<T> {
     return this.request('GET', undefined, undefined, id);
   }
 

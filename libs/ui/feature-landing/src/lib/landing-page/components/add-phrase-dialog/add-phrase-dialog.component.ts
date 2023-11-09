@@ -10,9 +10,10 @@ import { Language, Phrase, PhraseService } from '../../../shared';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
 import { MessagesModule } from 'primeng/messages';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
-  selector: 'l-add-phrase-modal',
+  selector: 'l-add-phrase-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,23 +32,25 @@ import { MessagesModule } from 'primeng/messages';
 })
 export class AddPhraseDialogComponent implements OnInit {
   @Input()
-  phrase: Phrase | undefined;
+  phrase: Phrase | null = null;
 
   @Input()
-  languages!: Language[];
-
-  @Input()
-  visible: boolean = false;
+  languages: Language[] | null = [];
 
   @Input()
   state: 'INITIAL' | 'SAVING' | 'SAVED' | 'ERROR' = 'INITIAL';
 
-  public formGroup: FormGroup | undefined;
-  public error!: string | null;
+  public formGroup!: FormGroup;
+  public error!: unknown;
 
-  constructor(private phraseService: PhraseService) {}
+  constructor(
+    private phraseService: PhraseService,
+    public config: DynamicDialogConfig
+  ) {}
 
   ngOnInit() {
+    this.languages = this.config.data.languages;
+
     this.formGroup = new FormGroup({
       key: new FormControl<string | null>(null),
       text: new FormControl<string | null>(null),
@@ -55,22 +58,35 @@ export class AddPhraseDialogComponent implements OnInit {
   }
   save() {
     this.state = 'SAVING';
-    this.phraseService.create(this.formGroup?.value).subscribe((phrase) => {
-      this.state = 'SAVED';
-      this.phrase = phrase;
-    });
+    const { key, text } = this.formGroup?.value;
+    this.phrase = { key, text, scopeId: 1 } as unknown as Phrase;
+
+    this.phraseService.create(this.phrase).subscribe(
+      (phrase) => {
+        this.state = 'SAVED';
+        this.phrase = phrase;
+      },
+      (error) => {
+        this.state = 'ERROR';
+        this.error = `<strong>${error.message}</strong><br/>`;
+
+        (error.error?.message as Array<string>).forEach((msg) => {
+          this.error += `<p>${msg}</p>`;
+        });
+
+        const { error: formattedError } = this;
+        console.error({ formattedError });
+      }
+    );
   }
-  cancel() {
-    this.visible = false;
-  }
+  cancel() {}
 
   onOk() {
-    this.visible = false;
     this.formGroup = new FormGroup({
       key: new FormControl<string | null>(null),
       text: new FormControl<string | null>(null),
     });
-    this.phrase = undefined;
+    this.phrase = null;
     this.state = 'INITIAL';
   }
 }

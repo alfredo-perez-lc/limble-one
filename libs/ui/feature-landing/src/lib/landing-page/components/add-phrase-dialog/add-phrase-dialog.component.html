@@ -1,0 +1,109 @@
+<div *ngIf="state === 'INITIAL'" [formGroup]="formGroup">
+  <p>
+    <strong>Let's make this easy!</strong> Just enter the phrase key and text
+    you want to use and we'll do the rest.
+  </p>
+  <div class="flex flex-column gap-4 mb-3">
+    <div class="flex flex-column gap-2 mt-3">
+      <span class="p-float-label">
+        <input
+          class="w-full"
+          pInputText
+          id="key"
+          aria-describedby="key-help"
+          formControlName="key"
+        />
+        <label for="key">Key</label>
+      </span>
+      <small id="key-help" class="ml-1"
+        >Enter a key for the string.<strong> Keep it short!</strong></small
+      >
+    </div>
+    <div class="flex flex-column gap-2 mt-1">
+      <span class="p-float-label">
+        <textarea
+          id="text-input"
+          class="w-full"
+          rows="5"
+          cols="30"
+          pInputTextarea
+          formControlName="text"
+          [autoResize]="true"
+        ></textarea>
+        <label for="text-input">Text</label>
+      </span>
+      <small id="text-help" class="ml-1"
+        >Enter the text that we need to localize.</small
+      >
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="state === 'SAVING'">
+  <div class="flex-col mt-1 mb-1 gap-0">
+    <p class="m-0"><strong>Phrase Text:</strong> {{ phrase?.text }}</p>
+    <p class="m-0">
+      <small><strong>Key:</strong> {{ phrase?.key }}</small>
+    </p>
+  </div>
+  <p-divider align="center" type="solid">
+    <div class="inline-flex align-items-center">
+      <i class="pi pi-bolt mr-2"></i>
+      <b>Translations</b>
+    </div>
+  </p-divider>
+  <ng-container *ngIf="languages">
+    <ng-container *ngFor="let lang of languages">
+      <div class="flex-col mt-2">
+        <p>{{ lang.name }}</p>
+        <p-skeleton height="2rem"></p-skeleton>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="state === 'SAVED'">
+  <l-translated-phrase-form
+    *ngIf="phrase && languages"
+    [phrase]="phrase"
+    [languages]="languages"
+  ></l-translated-phrase-form>
+</ng-container>
+
+<ng-container *ngIf="state === 'ERROR'">
+  <h2>Oh No!!</h2>
+  <p>Something wrong happened. Here is the error message we got:</p>
+  <p-messages severity="error">
+    <ng-template pTemplate>
+      <span><strong>⚠️</strong></span>
+      <div class="ml-2" [innerHTML]="error"></div>
+    </ng-template>
+  </p-messages>
+</ng-container>
+
+<div class="mt-2 flex justify-content-end gap-3">
+  <ng-container *ngIf="state === 'INITIAL'">
+    <button
+      pButton
+      type="button"
+      label="Cancel"
+      class="p-button-outlined p-button-secondary"
+      (click)="cancel()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Save"
+      class=""
+      (click)="save()"
+    ></button>
+  </ng-container>
+
+  <button
+    *ngIf="state === 'SAVED'"
+    pButton
+    type="button"
+    label="Ok"
+    class=""
+    (click)="onOk()"
+  ></button>
+</div>

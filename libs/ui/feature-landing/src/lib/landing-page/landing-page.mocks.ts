@@ -1,4 +1,4 @@
-import { Translation } from '../shared';
+import { Phrase, Translation } from '../shared';
 
 const data = {
   scopes: [
@@ -123,7 +123,7 @@ const data = {
       text: 'Alphabet',
       id: 5,
     },
-  ],
+  ] as unknown as Phrase[],
   translatedPhrase: {
     id: 1,
     key: 'hello_world',
