@@ -1,40 +1,12 @@
 <l-page-title title="Translations"></l-page-title>
 
+<div class="flex flex-row py-4 gap-4 justify-content-start">
+  <span class="flex flex-row gap-2 align-items-center">
+    <p-dropdown [options]="scopes" optionLabel="name"> </p-dropdown>
+  </span>
+  <span class="flex flex-row gap-2 align-items-center">
+    <p-dropdown [options]="scopes" optionLabel="name"> </p-dropdown>
+  </span>
+</div>
 
-<!--<div class="flex flex-row py-4 gap-4 justify-content-start">-->
-<!--        <span class="flex flex-row gap-2 align-items-center">-->
-<!--          <p-dropdown-->
-<!--            [options]="scopes"-->
-<!--            [(ngModel)]="selectedScope"-->
-<!--            optionLabel="name"-->
-<!--          ></p-dropdown>-->
-<!--        </span>-->
-<!--  <span class="flex flex-row gap-2 align-items-center">-->
-<!--          <p-dropdown-->
-<!--            [options]="scopes"-->
-<!--            [(ngModel)]="selectedScope"-->
-<!--            optionLabel="name"-->
-<!--          ></p-dropdown>-->
-<!--        </span>-->
-<!--</div>-->
 <l-phrases-list></l-phrases-list>
-<!--<div class="flex gap-2">-->
-<!--  <div class="w-4 flex align-items-center">-->
-<!--    <p-listbox-->
-<!--      class="w-full"-->
-<!--      [options]="phrases"-->
-<!--      [(ngModel)]="selectedPhrase"-->
-<!--      optionLabel="text"-->
-<!--    >-->
-<!--    </p-listbox>-->
-<!--  </div>-->
-
-<!--  <div class="w-8 font-bold p-1 flex align-items-center">-->
-<!--    {{ selectedPhrase | json }}-->
-<!--  </div>-->
-<!--</div>-->
-<!--<p-paginator-->
-<!--  class="paginator flex w-4"-->
-<!--  [totalRecords]="120"-->
-<!--  [rowsPerPageOptions]="[10, 25, 50]"-->
-<!--&gt;</p-paginator>-->

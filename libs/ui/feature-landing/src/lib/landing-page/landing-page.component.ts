@@ -10,6 +10,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { PageTitleComponent } from '@limble/ui/shared';
 import { PhrasesListComponent } from './components/phrases-list/phrases-list.component';
+import { LandingPageMocks } from './landing-page.mocks';
 
 @Component({
   selector: 'app-landing-page',
@@ -33,6 +34,15 @@ import { PhrasesListComponent } from './components/phrases-list/phrases-list.com
 export class LandingPageComponent {
   languages$ = this.languagesService.getAll();
   value: any;
+  scopes = LandingPageMocks.data.scopes;
+  sortOptions: any[] | undefined;
 
   constructor(private languagesService: LanguagesService) {}
+
+  ngOnInit() {
+    this.sortOptions = [
+      { label: 'A-Z', value: '!alphabetical' },
+      { label: 'Z-A', value: 'alphabetical' },
+    ];
+  }
 }

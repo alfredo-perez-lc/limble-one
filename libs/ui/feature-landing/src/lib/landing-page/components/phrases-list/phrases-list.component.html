@@ -1,1 +1,19 @@
-<p>phrases-list works!</p>
+<div class="flex flex-column gap-2">
+  <div class="w-4 flex align-items-center">
+    <p-listbox
+      [options]="phrases"
+      [(ngModel)]="selectedPhrase"
+      optionLabel="text"
+    >
+      {{ selectedPhrase | json }}
+    </p-listbox>
+  </div>
+
+  <div class="w-8 font-bold p-1 flex align-items-center"></div>
+  <p-paginator
+    class="paginator flex w-4"
+    [totalRecords]="120"
+    [rowsPerPageOptions]="[10, 25, 50]"
+  >
+  </p-paginator>
+</div>
