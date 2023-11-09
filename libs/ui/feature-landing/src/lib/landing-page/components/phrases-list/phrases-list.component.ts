@@ -20,8 +20,14 @@ import { TranslatedPhraseFormComponent } from '../translated-phrase-form/transla
   styleUrls: ['./phrases-list.component.scss'],
 })
 export class PhrasesListComponent {
-  @Input() phrases: Phrase[] | null = [];
+  @Input() phrases!: Phrase[];
 
   @Input() languages: Language[] | null = [];
-  selectedPhrase: Phrase | null = null;
+  selectedPhrase!: Phrase;
+
+  ngOnChanges(): void {
+    if (this.phrases.length > 0) {
+      this.selectedPhrase = this.phrases[0];
+    }
+  }
 }

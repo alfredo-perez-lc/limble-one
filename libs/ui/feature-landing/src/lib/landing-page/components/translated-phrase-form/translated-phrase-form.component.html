@@ -1,27 +1,63 @@
 <div class="fadein animation-duration-500">
-  <div class="flex-col mt-1 mb-1 gap-0">
-    <p class="m-0"><strong>Phrase Text:</strong> {{ phrase.text }}</p>
-    <p class="m-0">
-      <small><strong>Key:</strong> {{ phrase.key }}</small>
-    </p>
-  </div>
-  <p-divider align="center" type="solid">
-    <div class="inline-flex align-items-center">
-      <i class="pi pi-bolt mr-2"></i>
-      <b>Translations</b>
+  <div class="sticky">
+    <div class="flex-col mt-1 mb-1 gap-0">
+      <p class="m-0"><strong>Phrase Text:</strong> {{ phrase.text }}</p>
+      <p class="m-0">
+        <small><strong>Key:</strong> {{ phrase.key }}</small>
+      </p>
     </div>
-  </p-divider>
+    <p-divider align="center" type="solid">
+      <div class="inline-flex align-items-center">
+        <i class="pi pi-bolt mr-2"></i>
+        <b>Translations</b>
+      </div>
+    </p-divider>
+  </div>
+
   <ng-container *ngFor="let translation of translations">
-    <div class="flex-col mt-2" >
+    <div class="flex-col mt-2">
       <p>
         <strong>{{ translation.languageName }}</strong>
+        <i
+          *ngIf="translation.state === 'EDITING'"
+          class="pi pi-save ml-2"
+          style="color: rgb(128, 128, 128); cursor: pointer"
+          (click)="saveTranslation(translation)"
+        ></i>
       </p>
-      <span (mouseenter) ="translation.isHovered = true"  (mouseleave) ="translation.isHovered = false">
-        <i *ngIf="translation.isHovered" class="pi pi-pencil mr-2" style="color: gray; cursor: pointer;"></i>
-        <i *ngIf="!translation.isHovered"  class="pi pi-angle-right mr-2" style="color: green"></i>
-<!--        <input pInputText type="text" class="p-inputtext-sm"  [ngModel]="translation.text" />-->
-         {{ translation.text }}
+      <span
+        *ngIf="translation.state !== 'EDITING'"
+        (mouseenter)="translation.state = 'HOVERED'"
+        (mouseleave)="translation.state = 'INITIAL'"
+      >
+        <i
+          *ngIf="translation.state === 'HOVERED'"
+          class="pi pi-pencil mr-2"
+          style="color: rgb(128, 128, 128); cursor: pointer"
+          (click)="editTranslation(translation)"
+        ></i>
+        <i
+          *ngIf="translation.state !== 'HOVERED'"
+          class="pi pi-angle-right mr-2"
+          style="color: green"
+        ></i>
+        {{ translation.text }}
       </span>
+      <div
+        class="flex flex-column gap-2 mt-1"
+        *ngIf="translation.state === 'EDITING'"
+      >
+        <textarea
+          id="text-input"
+          class="w-full"
+          rows="5"
+          cols="30"
+          pInputTextarea
+          type="text"
+          [(ngModel)]="translation.text"
+          [autoResize]="true"
+        ></textarea>
+      </div>
     </div>
   </ng-container>
 </div>

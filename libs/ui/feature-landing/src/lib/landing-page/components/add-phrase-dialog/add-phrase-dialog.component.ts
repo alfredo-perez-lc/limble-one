@@ -73,9 +73,6 @@ export class AddPhraseDialogComponent implements OnInit {
         (error.error?.message as Array<string>).forEach((msg) => {
           this.error += `<p>${msg}</p>`;
         });
-
-        const { error: formattedError } = this;
-        console.error({ formattedError });
       }
     );
   }

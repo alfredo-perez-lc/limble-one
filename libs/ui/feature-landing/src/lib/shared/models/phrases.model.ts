@@ -1,4 +1,4 @@
-import { Translation } from './translation';
+import { Translation } from './translation.model';
 
 export interface Phrase {
   key: string;

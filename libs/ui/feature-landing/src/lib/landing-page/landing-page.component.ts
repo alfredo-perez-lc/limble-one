@@ -43,7 +43,6 @@ export class LandingPageComponent {
 
   phrases$ = this.phrasesService.getAll();
 
-  isCreatingPhrase: boolean = false;
   ref: DynamicDialogRef | undefined;
 
   constructor(
@@ -51,8 +50,6 @@ export class LandingPageComponent {
     private phrasesService: PhraseService,
     private dialogService: DialogService
   ) {}
-
-  ngOnInit() {}
 
   async onAddPhraseClick() {
     const languages = await lastValueFrom(this.languagesService.getAll());

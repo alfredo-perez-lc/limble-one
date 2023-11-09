@@ -1,4 +1,4 @@
-export * from './models/translation';
+export * from './models/translation.model';
 export * from './models/scopes.model';
 export * from './models/phrases.model';
 export * from './models/language.model';

@@ -19,8 +19,12 @@ export abstract class ApiService<T> {
   public create(body: Partial<T>): Observable<T> {
     return this.request('POST', undefined, body);
   }
+
+  public update(id: number, body: Partial<T>): Observable<T> {
+    return this.request('PATCH', undefined, body, id);
+  }
   protected request<T>(
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     pageQuery?: PageQuery,
     body?: any,
     id?: number

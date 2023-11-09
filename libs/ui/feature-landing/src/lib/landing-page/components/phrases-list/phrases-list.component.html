@@ -1,29 +1,39 @@
-<div class="flex w-full h-full bg-white shadow-1 border-round-md">
-  <div *ngIf="phrases" class="flex flex-column gap-2 h-full border-right-1">
-    <div class="flex align-items-center w-4">
+<div
+  *ngIf="phrases"
+  class="flex flex-row w-full h-full bg-white shadow-1 border-round-md"
+>
+  <div
+    class="flex flex-column justify-content-between w-4 border-right-2 border-gray-300"
+    style="height: 1100px"
+  >
+    <div class="h-full w-full flex-grow">
       <p-listbox
-        class="flex w-full h-full"
         [options]="phrases"
+        [filter]="true"
         [(ngModel)]="selectedPhrase"
         optionLabel="text"
       >
-        {{ selectedPhrase | json }}
+        <ng-template let-phrase pTemplate="item">
+          <div class="flex flex-column gap-2">
+            <p class="m-0">{{ phrase.text }}</p>
+            <p class="m-0">
+              <i class="pi pi-angle-right ml-1" style="color: lightgray"></i>
+              <small><strong>Key:</strong> {{ phrase.key }}</small>
+            </p>
+          </div>
+        </ng-template>
       </p-listbox>
     </div>
-    <p-divider layout="vertical"></p-divider>
 
-    <div class="w-8 font-bold p-1 flex align-items-center bg-purple-600">
-      <l-translated-phrase-form
-        *ngIf="languages && selectedPhrase"
-        [languages]="languages"
-        [phrase]="selectedPhrase"
-      ></l-translated-phrase-form>
-    </div>
-    <p-paginator
-      class="paginator flex w-4"
-      [totalRecords]="120"
-      [rowsPerPageOptions]="[10, 25, 50]"
-    >
+    <p-paginator [totalRecords]="120" [rowsPerPageOptions]="[10, 25, 50]">
     </p-paginator>
+  </div>
+  <div class="flex overflow-scroll w-8" style="max-height: 1100px">
+    <l-translated-phrase-form
+      *ngIf="languages && selectedPhrase"
+      class="p-5 overflow-scroll w-full"
+      [languages]="languages"
+      [phrase]="selectedPhrase"
+    ></l-translated-phrase-form>
   </div>
 </div>

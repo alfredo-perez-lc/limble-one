@@ -95,7 +95,7 @@ export class PhrasesService {
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit: take, offset: skip } = paginationQuery;
     return this.phraseRepository.find({
-      relations: ['scope'],
+      relations: ['scope', 'translations', 'translations.language'],
       skip,
       take,
     });
