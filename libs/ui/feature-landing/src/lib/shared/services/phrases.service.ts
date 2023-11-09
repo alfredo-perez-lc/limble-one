@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '@limble/ui/shared';
 import { HttpClient } from '@angular/common/http';
 import { Phrase } from '../models/phrases.model';
+import { ApiService } from '@limble/ui/shared';
 
 @Injectable({
   providedIn: 'root',

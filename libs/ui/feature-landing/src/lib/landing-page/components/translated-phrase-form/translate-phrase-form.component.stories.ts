@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { applicationConfig } from '@storybook/angular';
+import {
+  applicationConfig,
+  componentWrapperDecorator,
+} from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { within } from '@storybook/testing-library';
 import { TranslatedPhraseFormComponent } from './translated-phrase-form.component';
 import { provideHttpClient } from '@angular/common/http';
+import { LandingPageMocks } from '../../landing-page.mocks';
 
 const meta: Meta<TranslatedPhraseFormComponent> = {
   component: TranslatedPhraseFormComponent,
@@ -12,17 +15,18 @@ const meta: Meta<TranslatedPhraseFormComponent> = {
     applicationConfig({
       providers: [provideAnimations(), provideHttpClient()],
     }),
+    componentWrapperDecorator(
+      (story) =>
+        `<div class="p-4" style="background:white;width: 300px; height:500px">${story}</div>`
+    ),
   ],
-  args: {
-    visible: true,
-  },
 };
 export default meta;
 type Story = StoryObj<TranslatedPhraseFormComponent>;
 
 export const Default: Story = {
-  args: {},
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  args: {
+    phrase: LandingPageMocks.data.translatedPhrase,
+    languages: LandingPageMocks.data.languages,
   },
 };

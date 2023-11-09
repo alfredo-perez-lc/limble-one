@@ -10,6 +10,9 @@ import { ListboxModule } from 'primeng/listbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { PageTitleComponent } from '@limble/ui/shared';
 import { PhrasesListComponent } from './components/phrases-list/phrases-list.component';
+import { RippleModule } from 'primeng/ripple';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { AddPhraseDialogComponent } from './components/add-phrase-modal/add-phrase-dialog.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -25,6 +28,9 @@ import { PhrasesListComponent } from './components/phrases-list/phrases-list.com
     PaginatorModule,
     PageTitleComponent,
     PhrasesListComponent,
+    RippleModule,
+    SplitButtonModule,
+    AddPhraseDialogComponent,
   ],
   providers: [HttpClient],
   templateUrl: './landing-page.component.html',
@@ -33,6 +39,7 @@ import { PhrasesListComponent } from './components/phrases-list/phrases-list.com
 export class LandingPageComponent {
   languages$ = this.languagesService.getAll();
   value: any;
+  isCreatingPhrase: boolean = false;
 
   constructor(private languagesService: LanguagesService) {}
 }

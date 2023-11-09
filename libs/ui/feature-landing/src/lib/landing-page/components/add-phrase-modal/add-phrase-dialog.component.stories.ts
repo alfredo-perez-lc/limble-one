@@ -5,6 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { LandingPageMocks } from '../../landing-page.mocks';
+import { provideHttpClient } from '@angular/common/http';
 
 const meta: Meta<AddPhraseDialogComponent> = {
   component: AddPhraseDialogComponent,
@@ -12,7 +13,7 @@ const meta: Meta<AddPhraseDialogComponent> = {
   parameters: {},
   decorators: [
     applicationConfig({
-      providers: [provideAnimations()],
+      providers: [provideAnimations(), provideHttpClient()],
     }),
   ],
   args: {
@@ -40,7 +41,7 @@ export const Saving: Story = {
     phrase: {
       key: 'hello-world',
       text: 'Hello World',
-    },
+    } as any,
     languages: LandingPageMocks.data.languages,
   },
 };
@@ -48,11 +49,15 @@ export const Saving: Story = {
 export const Saved: Story = {
   args: {
     state: 'SAVED',
+    phrase: LandingPageMocks.data.translatedPhrase,
+    languages: LandingPageMocks.data.languages,
   },
 };
 
 export const Error: Story = {
   args: {
     state: 'ERROR',
+    error:
+      '404 - What a horrible error! \n try again later. Or not! it is up to you!',
   },
 };

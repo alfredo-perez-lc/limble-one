@@ -27,3 +27,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.p-divider-solid.p-divider-horizontal:before {
+  border-top-style: solid !important;
+}
+.p-divider-dashed.p-divider-horizontal:before {
+  border-top-style: dashed !important;
+}
+.p-divider-solid.p-divider-vertical:before {
+  border-left-style: solid !important;
+}

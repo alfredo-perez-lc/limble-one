@@ -109,7 +109,7 @@ export class PhrasesService {
   async findOne(id: number) {
     const phrase = await this.phraseRepository.findOne({
       where: { id },
-      relations: ['scope', 'translations'],
+      relations: ['scope', 'translations', 'translations.language'],
     });
 
     if (!phrase) {

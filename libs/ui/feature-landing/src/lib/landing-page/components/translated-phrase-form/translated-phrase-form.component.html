@@ -1,1 +1,27 @@
-<p>translated-phrase-form works!</p>
+<div class="fadein animation-duration-500">
+  <div class="flex-col mt-1 mb-1 gap-0">
+    <p class="m-0"><strong>Phrase Text:</strong> {{ phrase.text }}</p>
+    <p class="m-0">
+      <small><strong>Key:</strong> {{ phrase.key }}</small>
+    </p>
+  </div>
+  <p-divider align="center" type="solid">
+    <div class="inline-flex align-items-center">
+      <i class="pi pi-bolt mr-2"></i>
+      <b>Translations</b>
+    </div>
+  </p-divider>
+  <ng-container *ngFor="let translation of translations">
+    <div class="flex-col mt-2" >
+      <p>
+        <strong>{{ translation.languageName }}</strong>
+      </p>
+      <span (mouseenter) ="translation.isHovered = true"  (mouseleave) ="translation.isHovered = false">
+        <i *ngIf="translation.isHovered" class="pi pi-pencil mr-2" style="color: gray; cursor: pointer;"></i>
+        <i *ngIf="!translation.isHovered"  class="pi pi-angle-right mr-2" style="color: green"></i>
+<!--        <input pInputText type="text" class="p-inputtext-sm"  [ngModel]="translation.text" />-->
+         {{ translation.text }}
+      </span>
+    </div>
+  </ng-container>
+</div>

@@ -1,5 +1,22 @@
-<l-page-title title="Translations"></l-page-title>
+<l-page-title title="Translations">
+    <div class="flex flex-row gap-4 align-self-center">
+        <button
+                pButton
+                pRipple
+                label="Add Language"
+                class="p-button-secondary"
+        ></button>
+        <button
+                pButton
+                pRipple
+                label="Add Phrase"
+                class="p-button-primary"
+                (click)="isCreatingPhrase = true"
+        ></button>
 
+    </div>
+</l-page-title>
+<l-add-phrase-modal [visible]="isCreatingPhrase"></l-add-phrase-modal>
 
 <!--<div class="flex flex-row py-4 gap-4 justify-content-start">-->
 <!--        <span class="flex flex-row gap-2 align-items-center">-->

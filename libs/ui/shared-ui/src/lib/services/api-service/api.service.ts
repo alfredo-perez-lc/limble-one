@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PageQuery } from './api.model';
+import { Observable } from 'rxjs';
 
 export abstract class ApiService<T> {
   protected constructor(
@@ -15,7 +16,10 @@ export abstract class ApiService<T> {
     return this.request('GET', undefined, undefined, id);
   }
 
-  protected request(
+  public create(body: Partial<T>): Observable<T> {
+    return this.request('POST', undefined, body);
+  }
+  protected request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     pageQuery?: PageQuery,
     body?: any,

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { AppMocks } from './app.mocks';
 import { DataViewModule } from 'primeng/dataview';
 import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
@@ -34,9 +33,7 @@ import { TopNavComponent } from '@limble/ui/shared';
 export class AppComponent implements OnInit {
   title = 'translations-client';
   containerClass: any;
-  scopes = AppMocks.data.scopes;
-  phrases = AppMocks.data.phrases;
-  translations = AppMocks.data.translations;
+
   sortField: string | undefined;
   sortOrder: number | undefined;
   sortOptions: any[] | undefined;
@@ -55,7 +52,7 @@ export class AppComponent implements OnInit {
       { label: 'Z-A', value: 'alphabetical' },
     ];
 
-    this.filteredPhrases = this.phrases; // Initialize filteredPhrases with all phrases
+    // Initialize filteredPhrases with all phrases
   }
 
   public isWelcomeComponent(name: string): boolean {
