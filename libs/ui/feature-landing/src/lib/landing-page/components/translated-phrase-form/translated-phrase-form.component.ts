@@ -49,15 +49,16 @@ export class TranslatedPhraseFormComponent implements OnInit {
         (translation) => translation.language.id === language.id
       );
       if (!translation) {
-        throw new Error('Translation not found');
+        return {} as EditTranslationParams;
+      } else {
+        const { id, text } = translation;
+        return {
+          id,
+          languageName: language.name,
+          text,
+          state: 'INITIAL',
+        } as EditTranslationParams;
       }
-      const { id, text } = translation;
-      return {
-        id,
-        languageName: language.name,
-        text,
-        state: 'INITIAL',
-      } as EditTranslationParams;
     });
   }
 

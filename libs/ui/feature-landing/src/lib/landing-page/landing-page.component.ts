@@ -8,13 +8,14 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { ListboxModule } from 'primeng/listbox';
 import { PaginatorModule } from 'primeng/paginator';
-import { PageTitleComponent } from '@limble/ui/shared';
+import { PageTitleComponent } from '@limble/ui/volt';
 import { PhrasesListComponent } from './components/phrases-list/phrases-list.component';
 import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { lastValueFrom } from 'rxjs';
 import { AddPhraseDialogComponent } from './components/add-phrase-dialog/add-phrase-dialog.component';
+import { TranslationsDialogService } from './components/add-phrase-dialog/translations-dialog.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -48,7 +49,8 @@ export class LandingPageComponent {
   constructor(
     private languagesService: LanguagesService,
     private phrasesService: PhraseService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private translationsDialogService: TranslationsDialogService
   ) {}
 
   async onAddPhraseClick() {
@@ -66,6 +68,11 @@ export class LandingPageComponent {
       data: {
         languages,
       },
+    });
+  }
+  ngOnInit() {
+    this.translationsDialogService.addedPhrase$.subscribe((translation) => {
+      this.phrases$ = this.phrasesService.getAll();
     });
   }
 }

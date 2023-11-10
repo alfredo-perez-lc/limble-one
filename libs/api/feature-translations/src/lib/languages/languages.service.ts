@@ -7,6 +7,7 @@ import { Language } from './entities/language.entity';
 import { Translation } from '../translations/entities/translation.entity';
 import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
 import * as fs from 'fs';
+import * as JSZip from 'jszip';
 
 @Injectable()
 export class LanguagesService {
@@ -36,28 +37,6 @@ export class LanguagesService {
     }, {});
   }
 
-  @ApiOkResponse({
-    description: 'Download JSON file with translations for a specific language',
-  })
-  @ApiNotFoundResponse({ description: 'Language not found' })
-  async generateResultsJsonFile(languageId: number): Promise<string> {
-    try {
-      const translationsJson = await this.findAllTranslations(languageId);
-
-      const filePath = `${languageId}.json`;
-      fs.writeFileSync(filePath, JSON.stringify(translationsJson, null, 2), {
-        encoding: 'utf8',
-        flag: 'w',
-      });
-      return filePath;
-    } catch (e) {
-      console.log({ e });
-      throw new NotFoundException(
-        `Error generating the JSON file for  Language #${languageId}`
-      );
-    }
-  }
-
   async findOne(id: number) {
     return this.languageRepository.findOne({
       where: { id },
@@ -83,12 +62,51 @@ export class LanguagesService {
     return this.languageRepository.remove(language);
   }
 
-  public async seed(languages: CreateLanguageDto[]) {
-    const languagesCreated: any[] = [];
-    languages.forEach(async (language) => {
-      languagesCreated.push(await this.languageRepository.create(language));
-    });
+  // public async seed(languages: CreateLanguageDto[]) {
+  //   const languagesCreated: any[] = [];
+  //   languages.forEach(async (language) => {
+  //     languagesCreated.push(await this.languageRepository.create(language));
+  //   });
+  //
+  //   await this.languageRepository.save(languagesCreated);
+  // }
 
-    await this.languageRepository.save(languagesCreated);
+  @ApiOkResponse({
+    description: 'Creates JSON file with translations for a specific language',
+  })
+  @ApiNotFoundResponse({ description: 'Language not found' })
+  async generateLanguageJsonFile(languageId: number): Promise<string> {
+    try {
+      const translationsJson = await this.findAllTranslations(languageId);
+
+      const filePath = `/out/translations/${languageId}.json`;
+      fs.writeFileSync(filePath, JSON.stringify(translationsJson, null, 2), {
+        encoding: 'utf8',
+        flag: 'w',
+      });
+      return filePath;
+    } catch (e) {
+      console.log({ e });
+      throw new NotFoundException(
+        `Error generating the JSON file for  Language #${languageId}`
+      );
+    }
+  }
+
+  public async generateAllJsonFiles() {
+    const languages = await this.findAll();
+    const filePaths: Array<string> = [];
+    for (const language of languages) {
+      filePaths.push(await this.generateLanguageJsonFile(language.id));
+    }
+
+    const zipData = await JSZip.generateAsync({ type: 'nodebuffer' });
+    //
+    // archive.pipe(fs.createWriteStream('translations.zip'));
+    // filePaths.forEach((filePath) => {
+    //   archive.file(filePath, { name: filePath });
+    // });
+    // await archive.finalize();
+    return 'translations.zip';
   }
 }

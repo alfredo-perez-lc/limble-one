@@ -36,58 +36,9 @@ export class LanguagesController {
     return this.languagesService.findAllTranslations(id);
   }
 
-  @Get(':id/download')
-  @Header('Content-Type', 'application/json')
-  async downloadTranslationsJson(
-    @Param('id') id: number,
-    @Res({ passthrough: true }) res: Response
-  ) {
-    const filePath = await this.languagesService.generateResultsJsonFile(id);
-
-    res.set({
-      'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="${filePath}"`,
-    });
-
-    // Pipe the file to the response
-    // const fileStream = fs.createReadStream(filePath);
-    // console.log({ fileStream });
-    // fileStream.pipe(res);
-    //
-    // // Delete the file after sending it
-    // fileStream.on('close', () =>
-    //   fs.unlink(
-    //     filePath,
-    //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    //     () => {}
-    //   )
-    // );
-
-    // Handle errors and end of the stream
-    // fileStream.on('error', (err) => {
-    //   console.error('Error reading file:', err);
-    //   res.status(500).end();
-    // });
-    //
-    // fileStream.on('end', () => {
-    //   // Delete the file after sending it
-    //   fs.unlink(filePath, (err) => {
-    //     if (err) {
-    //       console.error('Error deleting file:', err);
-    //     }
-    //   });
-    // });
-    //
-    // // Pipe the file stream to the response
-    // fileStream.pipe(res);
-
-    const file = createReadStream(join(process.cwd(), filePath));
-    res.set({
-      'Content-Type': 'application/json',
-      // 'Content-Disposition': 'attachment; filename="package.json"',
-      'Content-Disposition': `attachment; filename="${filePath}"`,
-    });
-    return new StreamableFile(file);
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.languagesService.remove(+id);
   }
 
   @Get(':id')
@@ -103,8 +54,33 @@ export class LanguagesController {
     return this.languagesService.update(+id, updateLanguageDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.languagesService.remove(+id);
+  @Get(':id/download')
+  @Header('Content-Type', 'application/json')
+  async downloadTranslationsJson(
+    @Param('id') id: number,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const filePath = await this.languagesService.generateLanguageJsonFile(id);
+
+    const file = createReadStream(join(process.cwd(), filePath));
+    res.set({
+      'Content-Type': 'application/json',
+      'Content-Disposition': `attachment; filename="${filePath}"`,
+    });
+    return new StreamableFile(file);
+  }
+
+  @Get(':id/download-all')
+  @Header('Content-Type', 'application/zip')
+  async downloadTranslationsZip(@Res({ passthrough: true }) res: Response) {
+    await this.languagesService.generateAllJsonFiles();
+
+    const file = createReadStream(join(process.cwd(), 'translations.zip'));
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=translations.zip'
+    );
+    return new StreamableFile(file);
   }
 }

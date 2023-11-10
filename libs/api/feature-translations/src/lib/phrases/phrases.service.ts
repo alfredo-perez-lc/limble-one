@@ -98,6 +98,7 @@ export class PhrasesService {
       relations: ['scope', 'translations', 'translations.language'],
       skip,
       take,
+      order: { createdAt: 'DESC' },
     });
   }
 

@@ -11,6 +11,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
 import { MessagesModule } from 'primeng/messages';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { TranslationsDialogService } from './translations-dialog.service';
 
 @Component({
   selector: 'l-add-phrase-dialog',
@@ -45,7 +46,8 @@ export class AddPhraseDialogComponent implements OnInit {
 
   constructor(
     private phraseService: PhraseService,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    private translationsDialogService: TranslationsDialogService
   ) {}
 
   ngOnInit() {
@@ -65,6 +67,7 @@ export class AddPhraseDialogComponent implements OnInit {
       (phrase) => {
         this.state = 'SAVED';
         this.phrase = phrase;
+        this.translationsDialogService.addPhrase(phrase);
       },
       (error) => {
         this.state = 'ERROR';
