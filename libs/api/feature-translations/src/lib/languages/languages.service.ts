@@ -1,13 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { UpdateLanguageDto } from './dto/update-language.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Language } from './entities/language.entity';
-import { Translation } from '../translations/entities/translation.entity';
-import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
 import * as fs from 'fs';
-import * as JSZip from 'jszip';
+import {
+  CreateLanguageDto,
+  Language,
+  Translation,
+  UpdateLanguageDto,
+} from '@limble/shared/domain';
+
+// const JSZip = require('jszip');
 
 @Injectable()
 export class LanguagesService {
@@ -71,15 +73,11 @@ export class LanguagesService {
   //   await this.languageRepository.save(languagesCreated);
   // }
 
-  @ApiOkResponse({
-    description: 'Creates JSON file with translations for a specific language',
-  })
-  @ApiNotFoundResponse({ description: 'Language not found' })
   async generateLanguageJsonFile(languageId: number): Promise<string> {
     try {
       const translationsJson = await this.findAllTranslations(languageId);
 
-      const filePath = `/out/translations/${languageId}.json`;
+      const filePath = `${languageId}.json`;
       fs.writeFileSync(filePath, JSON.stringify(translationsJson, null, 2), {
         encoding: 'utf8',
         flag: 'w',
@@ -100,13 +98,19 @@ export class LanguagesService {
       filePaths.push(await this.generateLanguageJsonFile(language.id));
     }
 
-    const zipData = await JSZip.generateAsync({ type: 'nodebuffer' });
+    // const zip = new JSZip();
+
+    // const zipData = await JSZip.generateAsync({ type: 'nodebuffer' });
     //
-    // archive.pipe(fs.createWriteStream('translations.zip'));
-    // filePaths.forEach((filePath) => {
-    //   archive.file(filePath, { name: filePath });
-    // });
-    // await archive.finalize();
-    return 'translations.zip';
+    // for (const filePath of filePaths) {
+    //   const languageData = fs.readFileSync(filePath);
+    //   zip.file(filePath, languageData);
+    // }
+    // zip
+    //   .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+    //   .pipe(fs.createWriteStream('translations.zip'))
+    //   .on('finish', function () {
+    //     console.log('sample.zip written.');
+    //   });
   }
 }

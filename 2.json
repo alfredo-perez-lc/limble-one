@@ -1,4 +1,9 @@
 {
-  "Paused": "This is from the API",
-  "Stop_222": "this is a mocked translations"
+  "hello_world": "¿Cómo va todo??",
+  "adas": "sofás",
+  "DONT_STOP_ME_NOW": "¡No me detengas ahora!",
+  "What_is_this_about": "¿De qué va esto?",
+  "Cred114Description2": "<b>Dependencias:</b> 'Ver paneles personalizados (#41) 'debe estar habilitado para que este permiso funcione».",
+  "welcome": "Bienvenido",
+  "Keep-it-short": "Sea breve!"
 }

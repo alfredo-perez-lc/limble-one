@@ -3,12 +3,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreatePhraseDto } from './dto/create-phrase.dto';
-import { UpdatePhraseDto } from './dto/update-phrase.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Phrase } from './entities/phrase.entity';
 import { In, Repository } from 'typeorm';
-import { Scope } from '../scopes/entities/scope.entity';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -16,9 +12,15 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { PaginationQueryDto } from '../pagination-query.dto';
-import { Translation } from '../translations/entities/translation.entity';
 import { AwsTranslateService } from '../util';
-import { Language } from '../languages';
+import {
+  CreatePhraseDto,
+  Language,
+  Phrase,
+  Scope,
+  Translation,
+  UpdatePhraseDto,
+} from '@limble/shared/domain';
 
 @Injectable()
 export class PhrasesService {

@@ -2,9 +2,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateScopeDto } from './dto/create-scope.dto';
-import { UpdateScopeDto } from './dto/update-scope.dto';
-import { Scope } from './entities/scope.entity';
+import { CreateScopeDto, Scope, UpdateScopeDto } from '@limble/shared/domain';
 
 @Injectable()
 export class ScopesService {

@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { LanguagesService } from './languages.service';
 import { LanguagesController } from './languages.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Language } from './entities/language.entity';
-import { Translation } from '../translations/entities/translation.entity';
+import { Language, Translation } from '@limble/shared/domain';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Language, Translation])],

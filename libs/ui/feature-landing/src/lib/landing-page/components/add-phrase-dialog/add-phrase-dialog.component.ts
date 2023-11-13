@@ -82,6 +82,7 @@ export class AddPhraseDialogComponent implements OnInit {
   cancel() {}
 
   onOk() {
+    this.translationsDialogService.addPhrase({} as any);
     this.formGroup = new FormGroup({
       key: new FormControl<string | null>(null),
       text: new FormControl<string | null>(null),

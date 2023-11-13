@@ -8,8 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ScopesService } from './scopes.service';
-import { CreateScopeDto } from './dto/create-scope.dto';
-import { UpdateScopeDto } from './dto/update-scope.dto';
+import { CreateScopeDto, UpdateScopeDto } from '@limble/shared/domain';
 
 @Controller('scopes')
 export class ScopesController {

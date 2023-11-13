@@ -44,22 +44,27 @@ export class TranslatedPhraseFormComponent implements OnInit {
     if (!this.phrase?.translations) {
       return;
     }
-    this.translations = this.languages.map((language) => {
+    this.translations = [];
+    for (const language of this.languages) {
       const translation = this.phrase.translations.find(
         (translation) => translation.language.id === language.id
       );
       if (!translation) {
-        return {} as EditTranslationParams;
+        console.log('🧟🧟 Zombie  Translation for-> ');
+        console.log({
+          translation,
+          phrase: this.phrase,
+        });
       } else {
         const { id, text } = translation;
-        return {
+        this.translations.push({
           id,
           languageName: language.name,
           text,
           state: 'INITIAL',
-        } as EditTranslationParams;
+        } as EditTranslationParams);
       }
-    });
+    }
   }
 
   editTranslation(translation: EditTranslationParams) {
@@ -69,10 +74,21 @@ export class TranslatedPhraseFormComponent implements OnInit {
 
   saveTranslation(translation: EditTranslationParams) {
     translation.state = 'SAVING';
-    const { id, text } = translation;
+    const { id, text, languageName } = translation;
 
-    this.translationService.update(id, { text }).subscribe((result) => {
-      translation.state = 'INITIAL';
-    });
+    const language = this.languages.find(
+      (language) => language.name === languageName
+    );
+
+    const { id: phraseId } = this.phrase;
+    if (language) {
+      const { id: languageId } = language;
+      this.translationService
+        // TODO: need to create a DTO for this
+        .update(id, { text, languageId, phraseId } as any)
+        .subscribe((result) => {
+          translation.state = 'INITIAL';
+        });
+    }
   }
 }

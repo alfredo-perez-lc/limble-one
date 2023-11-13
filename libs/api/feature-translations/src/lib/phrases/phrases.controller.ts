@@ -9,8 +9,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { PhrasesService } from './phrases.service';
-import { CreatePhraseDto } from './dto/create-phrase.dto';
-import { UpdatePhraseDto } from './dto/update-phrase.dto';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -18,6 +16,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { PaginationQueryDto } from '../pagination-query.dto';
+import { CreatePhraseDto, UpdatePhraseDto } from '@limble/shared/domain';
 
 @Controller('phrases')
 export class PhrasesController {

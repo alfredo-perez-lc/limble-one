@@ -8,8 +8,10 @@ import {
   Post,
 } from '@nestjs/common';
 import { TranslationsService } from './translations.service';
-import { CreateTranslationDto } from './dto/create-translation.dto';
-import { UpdateTranslationDto } from './dto/update-translation.dto';
+import {
+  CreateTranslationDto,
+  UpdateTranslationDto,
+} from '@limble/shared/domain';
 
 @Controller('translations')
 export class TranslationsController {

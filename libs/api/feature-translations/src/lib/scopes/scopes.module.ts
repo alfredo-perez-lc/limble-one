@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ScopesService } from './scopes.service';
 import { ScopesController } from './scopes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Scope } from './entities/scope.entity';
+import { Scope } from '@limble/shared/domain';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Scope])],

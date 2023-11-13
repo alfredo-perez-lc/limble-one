@@ -1,4 +1,4 @@
-import { CreateLanguageDto } from './dto/create-language.dto';
+import { CreateLanguageDto } from '@limble/shared/domain';
 
 const data = {
   seed: [

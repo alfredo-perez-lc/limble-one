@@ -11,11 +11,11 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import { LanguagesService } from './languages.service';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { UpdateLanguageDto } from './dto/update-language.dto';
 import type { Response } from 'express';
-import { createReadStream } from 'fs';
+import { createReadStream, readFileSync } from 'fs';
 import { join } from 'path';
+import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { CreateLanguageDto, UpdateLanguageDto } from '@limble/shared/domain';
 
 @Controller('languages')
 export class LanguagesController {
@@ -56,6 +56,10 @@ export class LanguagesController {
 
   @Get(':id/download')
   @Header('Content-Type', 'application/json')
+  @ApiOkResponse({
+    description: 'Creates JSON file with translations for a specific language',
+  })
+  @ApiNotFoundResponse({ description: 'Language not found' })
   async downloadTranslationsJson(
     @Param('id') id: number,
     @Res({ passthrough: true }) res: Response
@@ -75,12 +79,11 @@ export class LanguagesController {
   async downloadTranslationsZip(@Res({ passthrough: true }) res: Response) {
     await this.languagesService.generateAllJsonFiles();
 
-    const file = createReadStream(join(process.cwd(), 'translations.zip'));
+    const fileName = 'translations.zip';
+    const file = readFileSync(join(process.cwd(), fileName));
     res.setHeader('Content-Type', 'application/zip');
-    res.setHeader(
-      'Content-Disposition',
-      'attachment; filename=translations.zip'
-    );
+    res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+    console.log({ file });
     return new StreamableFile(file);
   }
 }

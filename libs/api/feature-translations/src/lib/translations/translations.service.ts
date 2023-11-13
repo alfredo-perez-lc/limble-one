@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateTranslationDto } from './dto/create-translation.dto';
-import { UpdateTranslationDto } from './dto/update-translation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Translation } from './entities/translation.entity';
 import { Repository } from 'typeorm';
-import { Phrase } from '../phrases/entities/phrase.entity';
-import { Language } from '../languages/entities/language.entity';
+import {
+  CreateTranslationDto,
+  Language,
+  Phrase,
+  Translation,
+  UpdateTranslationDto,
+} from '@limble/shared/domain';
 
 @Injectable()
 export class TranslationsService {

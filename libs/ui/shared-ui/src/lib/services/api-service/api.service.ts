@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 export abstract class ApiService<T> {
   protected constructor(
     private entityName: string,
-    private httpClient: HttpClient
+    public httpClient: HttpClient
   ) {}
 
   public getAll(pageQuery?: PageQuery): Observable<T[]> {
