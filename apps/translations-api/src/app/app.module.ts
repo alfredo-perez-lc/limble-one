@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-
 import { ApiFeatureTranslationsModule } from '@limble/api/feature-translations';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SharedIniFileCredentials, Translate } from 'aws-sdk';

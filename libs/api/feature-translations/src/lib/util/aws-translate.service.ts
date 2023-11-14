@@ -12,25 +12,11 @@ export class AwsTranslateService {
   ) {}
 
   async translate(phrase: string, languageCode: string) {
-    // aws.config.credentials = new AWS.Credentials('access key', 'secret key');
-    //
-    // const translate = new AWS.Translate({ region: AWS.config.region });
     const params = {
       Text: phrase,
       SourceLanguageCode: 'EN',
       TargetLanguageCode: languageCode,
     };
     return this.awsTranslate.translateText(params).promise();
-
-    // return this.awsTranslate.translateText(params, function (err, data) {
-    //   if (err) {
-    //     console.log(err, err.stack);
-    //     return;
-    //   }
-    //   if (data) {
-    //     console.log({ data });
-    //   }
-    //   return data as TranslateTextResponse;
-    // }).promise();
   }
 }
