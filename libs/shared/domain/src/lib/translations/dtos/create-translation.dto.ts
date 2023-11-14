@@ -9,9 +9,9 @@ export class CreateTranslationDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  phraseId!: number;
+  phraseId!: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  languageId!: number;
+  languageId!: string;
 }

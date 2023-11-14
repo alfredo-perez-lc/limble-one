@@ -1,6 +1,6 @@
 export interface EditTranslationParams {
   state: 'INITIAL' | 'HOVERED' | 'SAVING' | 'ERROR' | 'SAVED' | 'EDITING';
-  id: number;
+  id: string;
   languageName: string;
   text: string;
 }

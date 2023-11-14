@@ -51,7 +51,7 @@ export class TranslationsService {
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const translation = await this.translationRepository.findOne({
       where: { id },
       relations: ['phrase', 'language'],
@@ -64,7 +64,7 @@ export class TranslationsService {
     return translation;
   }
 
-  async update(id: number, updateTranslationDto: UpdateTranslationDto) {
+  async update(id: string, updateTranslationDto: UpdateTranslationDto) {
     const translation = await this.translationRepository.preload({
       id,
       ...updateTranslationDto,
@@ -92,7 +92,7 @@ export class TranslationsService {
     return this.translationRepository.save(translation);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const translation = await this.findOne(id);
     if (!translation) {
       throw new NotFoundException(`Translation #${id} not found`);

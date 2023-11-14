@@ -32,18 +32,18 @@ export class LanguagesController {
   }
 
   @Get(':id/translations')
-  findAllTranslations(@Param('id') id: number) {
+  findAllTranslations(@Param('id') id: string) {
     return this.languagesService.findAllTranslations(id);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.languagesService.remove(+id);
+    return this.languagesService.remove(id);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.languagesService.findOne(+id);
+    return this.languagesService.findOne(id);
   }
 
   @Patch(':id')
@@ -51,7 +51,7 @@ export class LanguagesController {
     @Param('id') id: string,
     @Body() updateLanguageDto: UpdateLanguageDto
   ) {
-    return this.languagesService.update(+id, updateLanguageDto);
+    return this.languagesService.update(id, updateLanguageDto);
   }
 
   @Get(':id/download')
@@ -61,7 +61,7 @@ export class LanguagesController {
   })
   @ApiNotFoundResponse({ description: 'Language not found' })
   async downloadTranslationsJson(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Res({ passthrough: true }) res: Response
   ) {
     const filePath = await this.languagesService.generateLanguageJsonFile(id);

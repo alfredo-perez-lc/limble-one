@@ -29,7 +29,7 @@ export class TranslationsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.translationsService.findOne(+id);
+    return this.translationsService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,12 +37,12 @@ export class TranslationsController {
     @Param('id') id: string,
     @Body() updateTranslationDto: UpdateTranslationDto
   ) {
-    return this.translationsService.update(+id, updateTranslationDto);
+    return this.translationsService.update(id, updateTranslationDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.translationsService.remove(+id);
+    return this.translationsService.remove(id);
   }
 
   // @Get('download-zip')

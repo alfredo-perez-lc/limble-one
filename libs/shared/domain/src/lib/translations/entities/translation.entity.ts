@@ -3,7 +3,7 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Language } from './language.entity';
 import { Phrase } from './phrase.entity';
-import { BaseEntity } from '../../shared/base.entity';
+import { BaseEntity } from '../../shared';
 
 @Entity()
 export class Translation extends BaseEntity {

@@ -29,7 +29,7 @@ export class LanguagesService {
     return this.languageRepository.find();
   }
 
-  async findAllTranslations(languageId: number) {
+  async findAllTranslations(languageId: string) {
     const translations = await this.translationRepository.find({
       where: { language: { id: languageId } },
       relations: ['phrase', 'language'],
@@ -39,13 +39,13 @@ export class LanguagesService {
     }, {});
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.languageRepository.findOne({
       where: { id },
     });
   }
 
-  async update(id: number, updateLanguageDto: UpdateLanguageDto) {
+  async update(id: string, updateLanguageDto: UpdateLanguageDto) {
     const language = await this.languageRepository.preload({
       id,
       ...updateLanguageDto,
@@ -56,7 +56,7 @@ export class LanguagesService {
     return this.languageRepository.save(language);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const language = await this.findOne(id);
     if (!language) {
       throw new NotFoundException(`Language #${id} not found`);
@@ -73,7 +73,7 @@ export class LanguagesService {
   //   await this.languageRepository.save(languagesCreated);
   // }
 
-  async generateLanguageJsonFile(languageId: number): Promise<string> {
+  async generateLanguageJsonFile(languageId: string): Promise<string> {
     try {
       const translationsJson = await this.findAllTranslations(languageId);
 

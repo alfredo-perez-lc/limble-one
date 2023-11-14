@@ -61,7 +61,11 @@ export class AddPhraseDialogComponent implements OnInit {
   save() {
     this.state = 'SAVING';
     const { key, text } = this.formGroup?.value;
-    this.phrase = { key, text, scopeId: 1 } as unknown as Phrase;
+    this.phrase = {
+      key,
+      text,
+      scopeId: 'e14c9fa9-ea94-4906-81e2-15b61393b4ce',
+    } as unknown as Phrase;
 
     this.phraseService.create(this.phrase).subscribe(
       (phrase) => {

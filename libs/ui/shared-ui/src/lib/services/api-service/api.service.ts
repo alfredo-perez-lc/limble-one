@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { PageQuery } from './api.model';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PaginationQueryDto } from '@limble/shared/domain';
 
 export abstract class ApiService<T> {
   protected constructor(
@@ -8,11 +8,11 @@ export abstract class ApiService<T> {
     public httpClient: HttpClient
   ) {}
 
-  public getAll(pageQuery?: PageQuery): Observable<T[]> {
-    return this.request('GET', pageQuery);
+  public getAll(paginationQueryDto?: PaginationQueryDto): Observable<T[]> {
+    return this.request('GET', paginationQueryDto);
   }
 
-  public get(id: number): Observable<T> {
+  public get(id: string): Observable<T> {
     return this.request('GET', undefined, undefined, id);
   }
 
@@ -20,35 +20,46 @@ export abstract class ApiService<T> {
     return this.request('POST', undefined, body);
   }
 
-  public update(id: number, body: Partial<T>): Observable<T> {
+  public update(id: string, body: Partial<T>): Observable<T> {
     return this.request('PATCH', undefined, body, id);
   }
   protected request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
-    pageQuery?: PageQuery,
+    paginationQuery?: PaginationQueryDto,
     body?: any,
-    id?: number
+    id?: string
   ) {
     const url = this.getUrl(id);
-    const options = this.getOptions(pageQuery, body);
+    const options = this.getOptions(paginationQuery, body);
+
+    console.log({
+      method,
+      url,
+      options,
+    });
 
     return this.httpClient.request<T>(method, url, options);
   }
 
-  private getUrl(id?: number) {
+  private getUrl(id?: string) {
     const idPath = !id ? '' : `/${id}`;
     return `http://localhost:3000/${this.entityName}${idPath}`;
   }
 
-  private getOptions(pageQuery?: PageQuery, body?: any) {
-    const httpParams = new HttpParams();
-    if (pageQuery) {
-      httpParams.set('limit', pageQuery.limit.toString());
-      httpParams.set('offset', pageQuery.offset.toString());
+  private getOptions(paginationQuery?: PaginationQueryDto, body?: any) {
+    let params = {};
+    if (paginationQuery) {
+      const paginationParams = {
+        limit: paginationQuery.limit.toString(),
+        offset: paginationQuery.offset.toString(),
+        orderBy: paginationQuery.orderBy,
+        orderDirection: paginationQuery.orderDirection,
+      };
+      params = { ...paginationParams };
     }
 
     return {
-      params: httpParams,
+      params,
       body,
     };
   }

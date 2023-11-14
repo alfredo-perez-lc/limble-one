@@ -15,8 +15,11 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { PaginationQueryDto } from '../pagination-query.dto';
-import { CreatePhraseDto, UpdatePhraseDto } from '@limble/shared/domain';
+import {
+  CreatePhraseDto,
+  PaginationQueryDto,
+  UpdatePhraseDto,
+} from '@limble/shared/domain';
 
 @Controller('phrases')
 export class PhrasesController {
@@ -31,32 +34,31 @@ export class PhrasesController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all phrases' })
-  @ApiOkResponse({ description: 'Returns a list of phrases' })
+  @ApiOperation({ summary: 'Get a paginated list of  phrases' })
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.phrasesService.findAll(paginationQuery);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.phrasesService.findOne(+id);
+    return this.phrasesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePhraseDto: UpdatePhraseDto) {
-    return this.phrasesService.update(+id, updatePhraseDto);
+    return this.phrasesService.update(id, updatePhraseDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.phrasesService.remove(+id);
+    return this.phrasesService.remove(id);
   }
 
   @Get('count-per-scope/:scopeId')
   @ApiOperation({ summary: 'Count the number of phrases in a specific scope' })
   @ApiOkResponse({ description: 'Returns the number of phrases in the scope' })
   countPhrasesInScope(@Param('scopeId') scopeId: string) {
-    return this.phrasesService.countPhrasesInScope(parseInt(scopeId, 10));
+    return this.phrasesService.countPhrasesInScope(scopeId);
   }
 
   @Get('duplicated-in-scope/:scopeId')
@@ -65,9 +67,7 @@ export class PhrasesController {
     description: 'Returns a list of duplicated phrases in the scope',
   })
   duplicatedPhrasesInScope(@Param('scopeId') scopeId: string) {
-    return this.phrasesService.findDuplicatedPhrasesInScope(
-      parseInt(scopeId, 10)
-    );
+    return this.phrasesService.findDuplicatedPhrasesInScope(scopeId);
   }
 
   @Get('duplicated-across-scopes')

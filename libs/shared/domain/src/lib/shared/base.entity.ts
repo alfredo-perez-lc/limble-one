@@ -5,9 +5,8 @@ import {
 } from 'typeorm';
 
 export class BaseEntity {
-  @PrimaryGeneratedColumn()
-  // TODO: change to a string?
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @CreateDateColumn({
     type: 'timestamp',

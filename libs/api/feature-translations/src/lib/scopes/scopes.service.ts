@@ -19,13 +19,13 @@ export class ScopesService {
     return this.scopeRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return this.scopeRepository.findOne({
       where: { id },
     });
   }
 
-  async update(id: number, scopeDto: UpdateScopeDto) {
+  async update(id: string, scopeDto: UpdateScopeDto) {
     const scope = await this.scopeRepository.preload({
       id,
       ...scopeDto,
@@ -36,7 +36,7 @@ export class ScopesService {
     return this.scopeRepository.save(scope);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const scope = await this.findOne(id);
     if (!scope) {
       throw new NotFoundException(`Scope with id:${id} was not found`);

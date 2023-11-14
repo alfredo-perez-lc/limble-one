@@ -26,16 +26,16 @@ export class ScopesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.scopesService.findOne(+id);
+    return this.scopesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateScopeDto: UpdateScopeDto) {
-    return this.scopesService.update(+id, updateScopeDto);
+    return this.scopesService.update(id, updateScopeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.scopesService.remove(+id);
+    return this.scopesService.remove(id);
   }
 }

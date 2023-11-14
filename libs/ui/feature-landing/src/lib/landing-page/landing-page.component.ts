@@ -42,7 +42,12 @@ import { PageTitleComponent } from '@limble/ui/shared';
 export class LandingPageComponent {
   languages$ = this.languagesService.getAll();
 
-  phrases$ = this.phrasesService.getAll();
+  phrases$ = this.phrasesService.getAll({
+    limit: 10,
+    offset: 0,
+    orderBy: 'createdAt',
+    orderDirection: 'DESC',
+  });
 
   ref: DynamicDialogRef | undefined;
 

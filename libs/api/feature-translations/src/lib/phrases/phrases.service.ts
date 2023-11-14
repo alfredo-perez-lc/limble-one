@@ -11,11 +11,12 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { PaginationQueryDto } from '../pagination-query.dto';
+
 import { AwsTranslateService } from '../util';
 import {
   CreatePhraseDto,
   Language,
+  PaginationQueryDto,
   Phrase,
   Scope,
   Translation,
@@ -95,21 +96,27 @@ export class PhrasesService {
   @ApiOkResponse({ description: 'Returns a list of phrases' })
   @ApiNotFoundResponse({ description: 'No phrases found' })
   findAll(paginationQuery: PaginationQueryDto) {
-    const { limit: take, offset: skip } = paginationQuery;
+    const {
+      limit: take,
+      offset: skip,
+      orderBy,
+      orderDirection,
+    } = paginationQuery;
+
     return this.phraseRepository.find({
       relations: ['scope', 'translations', 'translations.language'],
       skip,
       take,
-      order: { createdAt: 'DESC' },
+      order: { [orderBy]: orderDirection },
     });
   }
 
   // TODO: Add pagination
-  async findPhrasesInScope(scopeId: number): Promise<Phrase[]> {
+  async findPhrasesInScope(scopeId: string): Promise<Phrase[]> {
     return this.phraseRepository.find({ where: { scope: { id: scopeId } } });
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const phrase = await this.phraseRepository.findOne({
       where: { id },
       relations: ['scope', 'translations', 'translations.language'],
@@ -124,7 +131,7 @@ export class PhrasesService {
 
   //TODO: Add validator that the key is unique in the scope
   //TODO: Add validator that the key is unique in all scopes
-  async update(id: number, updatePhraseDto: UpdatePhraseDto) {
+  async update(id: string, updatePhraseDto: UpdatePhraseDto) {
     const phrase = await this.findOne(id);
 
     const { scopeId, ...rest } = updatePhraseDto;
@@ -140,7 +147,7 @@ export class PhrasesService {
     return this.phraseRepository.save(phrase);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const phrase = await this.findOne(id);
     if (!phrase) {
       throw new NotFoundException('Phrase not found');
@@ -149,7 +156,7 @@ export class PhrasesService {
   }
 
   @ApiOkResponse({ description: 'Returns the number of phrases in the scope' })
-  async countPhrasesInScope(scopeId: number): Promise<number> {
+  async countPhrasesInScope(scopeId: string): Promise<number> {
     return this.phraseRepository.count({ where: { scope: { id: scopeId } } });
   }
 
@@ -164,7 +171,7 @@ export class PhrasesService {
     return Promise.all(countPromises);
   }
 
-  async findDuplicatedPhrasesInScope(scopeId: number): Promise<Phrase[]> {
+  async findDuplicatedPhrasesInScope(scopeId: string): Promise<Phrase[]> {
     const duplicatePhrases = await this.phraseRepository
       .createQueryBuilder('phrase')
       .select('phrase.id')
@@ -202,7 +209,7 @@ export class PhrasesService {
 
   private isPhraseKeyUniqueInScope(
     key: string,
-    scopeId: number
+    scopeId: string
   ): Promise<Phrase | null> {
     return this.phraseRepository.findOne({
       where: { key, scope: { id: scopeId } },
